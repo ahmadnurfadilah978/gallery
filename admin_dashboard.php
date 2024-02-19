@@ -27,7 +27,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboar</title>
+    <title>Admin Dashboard</title>
     <!-- Tambahkan link CSS di sini -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
@@ -41,7 +41,7 @@ while ($row = mysqli_fetch_assoc($result)) {
         <div class="flex items-center">
             <span class="mr-4">Welcome, <?php echo $_SESSION['username']; ?>!</span>
             <a href="admin_dashboard.php" class="hover:text-gray-400">Home</a>
-            <a href="data_pengguna.php" class="hover:text-gray-400 ml-4">Lihat Data Pengguna</a>
+            <a href="data_pengguna.php" class="hover:text-gray-400 ml-4">Users</a>
             <a href="albums.php" class="hover:text-gray-400 ml-4">Albums</a>
             <a href="fotoadmin.php" class="hover:text-gray-400 ml-4">Foto</a>
             <a href="login.php" class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 ml-4">Logout</a>

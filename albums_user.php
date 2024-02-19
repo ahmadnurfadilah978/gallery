@@ -64,7 +64,7 @@ while ($row = mysqli_fetch_assoc($result)) {
         <h2>Selamat Datang, <?php echo $_SESSION['username']; ?>!</h2>
         <a href="dashboard.php">Home</a>
         <a href="profile.php">Profile</a>
-        <a href="albums_user.php">Lihat Album</a>
+        <a href="albums_user.php">Album</a>
         <a href="logout.php">Logout</a>
     </div>
 

@@ -69,7 +69,7 @@ if (isset($_POST['username'])) {
             <input name="submit" type="submit" value="Login" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" />
             <input name="guest" type="submit" value="Guest Login" class="w-full bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mt-2" />
         </form>
-        <p class="text-center mt-4">Belum Terdaftar? <a href='registration.php' class="text-blue-500">Register Here</a></p>
+        <p class="text-center mt-4">Belum Terdaftar? <a href='registration.php' class="text-blue-500">Daftar Disini</a></p>
     </div>
 </body>
 </html>

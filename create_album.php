@@ -11,10 +11,11 @@ if (!isset($_SESSION['username'])) {
 // Tangkap data dari form jika ada
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $title = $_POST['title'];
+    $description = $_POST['description'];
     $user_id = $_SESSION['userid'];
 
     // Masukkan data ke dalam database
-    $query = "INSERT INTO albums (user_id, title) VALUES ('$user_id', '$title')";
+    $query = "INSERT INTO albums (user_id, title, description) VALUES ('$user_id', '$title', '$description')";
     $result = mysqli_query($conn, $query);
 
     if ($result) {
@@ -59,6 +60,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="mb-4">
                     <label for="title" class="block text-gray-700 font-medium">Title:</label>
                     <input type="text" id="title" name="title" class="w-full mt-1 px-4 py-2 border rounded-md focus:outline-none focus:border-indigo-500" required>
+                </div>
+                <div class="mb-4">
+                    <label for="description" class="block text-gray-700 font-medium">Description:</label>
+                    <textarea id="description" name="description" class="w-full mt-1 px-4 py-2 border rounded-md focus:outline-none focus:border-indigo-500" rows="4" required></textarea>
                 </div>
                 <div>
                     <button type="submit" class="bg-indigo-500 text-white px-6 py-3 rounded-md hover:bg-indigo-600">Create Album</button>

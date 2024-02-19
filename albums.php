@@ -37,7 +37,7 @@ while ($row = mysqli_fetch_assoc($result)) {
         <div class="flex items-center">
             <span class="mr-4">Welcome, <?php echo $_SESSION['username']; ?>!</span>
             <a href="admin_dashboard.php" class="hover:text-gray-400">Home</a>
-            <a href="data_pengguna.php" class="hover:text-gray-400 ml-4">Lihat Data Pengguna</a>
+            <a href="data_pengguna.php" class="hover:text-gray-400 ml-4">Users</a>
             <a href="albums.php" class="hover:text-gray-400 ml-4">Albums</a>
             <a href="fotoadmin.php" class="hover:text-gray-400 ml-4">Foto</a>
             <a href="login.php" class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 ml-4">Logout</a>
@@ -50,13 +50,20 @@ while ($row = mysqli_fetch_assoc($result)) {
             <a href="album_detail.php?album_id=<?php echo $album['album_id']; ?>">
                 <div class="p-4 flex-grow">
                     <h4 class="text-lg font-semibold mb-2"><?php echo $album['title']; ?></h4>
+                    <p class="text-gray-600 mb-2"><?php echo $album['description']; ?></p> <!-- Menampilkan deskripsi -->
                 </div>
             </a>
-            <!-- Tambahkan tombol hapus -->
-            <form action="delete_album_admin.php" method="post" class="p-4">
-                <input type="hidden" name="album_id" value="<?php echo $album['album_id']; ?>">
-                <button type="submit" onclick="return confirm('Are you sure you want to delete this album?');" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">Hapus</button>
-            </form>
+            <!-- Tambahkan tombol edit dan hapus -->
+            <div class="flex justify-between items-center p-4">
+                <form action="edit_album_admin.php" method="get">
+                    <input type="hidden" name="album_id" value="<?php echo $album['album_id']; ?>">
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Edit</button>
+                </form>
+                <form action="delete_album_admin.php" method="post">
+                    <input type="hidden" name="album_id" value="<?php echo $album['album_id']; ?>">
+                    <button type="submit" onclick="return confirm('Are you sure you want to delete this album?');" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 ml-2">Hapus</button>
+                </form>
+            </div>
         </div>
     <?php endforeach; ?>
     </div>

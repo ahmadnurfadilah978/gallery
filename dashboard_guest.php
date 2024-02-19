@@ -49,7 +49,7 @@ if (isset($_SESSION['username']) && $_SESSION['username'] === 'guest') {
     </div>
 
     <div class="footer bg-gray-800 text-white p-4 text-center mt-8">
-        <p>© 2023 My Website</p>
+        <p>© 2024 My Website</p>
     </div>
 </body>
 </html>
