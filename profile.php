@@ -39,8 +39,10 @@ $row = mysqli_fetch_assoc($result_users);
             <h3 class="text-2xl font-bold">Profil Pengguna</h3>
 
             <?php if ($jumlah >= 1) : ?>
-                <p class="mt-4 text-lg">Nama: <?php echo $row['name']; ?></p>
+                <p class="mt-4 text-lg">Username: <?php echo $row['username']; ?></p>
+                <p class="mt-2 text-lg">Nama: <?php echo $row['name']; ?></p>
                 <p class="mt-2 text-lg">Email: <?php echo $row['email']; ?></p>
+
                 <!-- Add other profile information here -->
             <?php else : ?>
                 <p class="text-lg">Profil tidak ditemukan.</p>

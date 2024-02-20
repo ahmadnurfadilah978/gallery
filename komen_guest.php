@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($conn->query($sql) === TRUE) {
         // Komentar berhasil ditambahkan, redirect ke halaman komentar
-        header("Location: comments_admin.php?photo_id=$photo_id");
+        header("Location: komen_guest.php?photo_id=$photo_id");
         exit();
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
@@ -37,7 +37,7 @@ if (isset($_GET['delete_comment'])) {
 
     if ($conn->query($delete_sql) === TRUE) {
         // Komentar berhasil dihapus
-        header("Location: comments_admin.php?photo_id=$photo_id");
+        header("Location: komen_guest.php?photo_id=$photo_id");
         exit();
     } else {
         echo "Error: " . $delete_sql . "<br>" . $conn->error;
@@ -62,6 +62,9 @@ if (isset($_GET['delete_comment'])) {
             <p class="text-red-600">Parameter photo_id tidak ditemukan.</p>
         <?php else: ?>
             <h1 class="text-2xl font-bold mb-4">Comments</h1>
+            <div class="mb-4">
+                <!-- Form untuk menambahkan komentar baru -->
+            </div>
             <?php
             // Query untuk mengambil komentar sesuai dengan photo_id
             $sql = "SELECT comments.*, users.username FROM comments 
@@ -80,7 +83,7 @@ if (isset($_GET['delete_comment'])) {
                         </div>
                         <?php if ($row['user_id'] == $_SESSION['userid']): ?>
                             <!-- Tombol hapus komentar -->
-                            <a href="?photo_id=<?php echo $photo_id; ?>&delete_comment=<?php echo $row['comment_id']; ?>" class="text-red-500 hover:text-red-700"><i class="fa-sharp fa-solid fa-trash"></i></a>
+                            <a href="?photo_id=<?php echo $photo_id; ?>&delete_comment=<?php echo $row['comment_id']; ?>"></a>
                         <?php endif; ?>
                     </div>
                     <?php
@@ -91,24 +94,9 @@ if (isset($_GET['delete_comment'])) {
             ?>
         <?php endif; ?>
     </div>
-
-    <?php if (!empty($photo_id)): ?>
-        <div class="bg-white p-6 rounded-lg shadow-md max-w-lg w-full mt-4">
-            <h1 class="text-2xl font-bold mb-4">Add Comment</h1>
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?photo_id=' . $photo_id; ?>" method="post">
-                <div class="mb-4">
-                    <label for="comment_text" class="block text-gray-700 text-sm font-bold mb-2">Comment:</label>
-                    <textarea name="comment_text" id="comment_text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="4" required></textarea>
-                </div>
-
-                <!-- Anda dapat menghapus input hidden ini jika user_id tersedia dalam sesi -->
-                <!-- <input type="hidden" name="user_id" value="1"> -->
-                <div class="flex items-center justify-between">
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Submit</button>
-                    <a href="admin_dashboard.php?photo_id=<?php echo $photo_id; ?>" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">Cancel</a>
-                </div>
-            </form>
+    <div class="mt-4 text-center">
+            <a href="index.php" class="text-indigo-500 hover:underline">Kembali ke Beranda</a>
         </div>
-    <?php endif; ?>
+
 </body>
 </html>

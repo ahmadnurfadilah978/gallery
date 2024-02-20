@@ -53,6 +53,8 @@ if (isset($_GET['delete_comment'])) {
     <title><?php echo empty($photo_id) ? 'Parameter photo_id tidak ditemukan' : 'Comments'; ?></title>
     <!-- Include Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/fontawesome.min.css">
+    <link rel="stylesheet" href="./css/all.min.css">
 </head>
 <body class="bg-gray-100 min-h-screen flex flex-col justify-center items-center">
     <div class="bg-white p-6 rounded-lg shadow-md max-w-lg w-full">
@@ -78,7 +80,7 @@ if (isset($_GET['delete_comment'])) {
                         </div>
                         <?php if ($row['user_id'] == $_SESSION['userid']): ?>
                             <!-- Tombol hapus komentar -->
-                            <a href="?photo_id=<?php echo $photo_id; ?>&delete_comment=<?php echo $row['comment_id']; ?>" class="inline-block bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Hapus</a>
+                            <a href="?photo_id=<?php echo $photo_id; ?>&delete_comment=<?php echo $row['comment_id']; ?>" class="text-red-500 hover:text-red-700"><i class="fa-sharp fa-solid fa-trash"></i></a>
                         <?php endif; ?>
                     </div>
                     <?php

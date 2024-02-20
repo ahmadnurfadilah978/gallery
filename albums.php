@@ -25,6 +25,8 @@ while ($row = mysqli_fetch_assoc($result)) {
 <head>
     <!-- Add Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/fontawesome.min.css">
+    <link rel="stylesheet" href="./css/all.min.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
@@ -57,11 +59,11 @@ while ($row = mysqli_fetch_assoc($result)) {
             <div class="flex justify-between items-center p-4">
                 <form action="edit_album_admin.php" method="get">
                     <input type="hidden" name="album_id" value="<?php echo $album['album_id']; ?>">
-                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Edit</button>
+                    <button type="submit" class="text-blue-500 hover:text-blue-700 mr-2" ><i class="fa-regular fa-pen-to-square"></i></button>
                 </form>
                 <form action="delete_album_admin.php" method="post">
                     <input type="hidden" name="album_id" value="<?php echo $album['album_id']; ?>">
-                    <button type="submit" onclick="return confirm('Are you sure you want to delete this album?');" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 ml-2">Hapus</button>
+                    <button type="submit" onclick="return confirm('Are you sure you want to delete this album?');" class="text-red-500 hover:text-red-700"><i class="fa-sharp fa-solid fa-trash"></i></button>
                 </form>
             </div>
         </div>
@@ -72,9 +74,7 @@ while ($row = mysqli_fetch_assoc($result)) {
         <a href="create_album.php" class="bg-indigo-500 text-white px-6 py-3 rounded-md hover:bg-indigo-600">Buat Album Baru</a>
     </div>
 
-    <div class="mt-8 text-center">
-        <p>© 2024 My Website</p>
-    </div>
+   
 
 </body>
 

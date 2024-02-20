@@ -9,8 +9,16 @@ if (!isset($_SESSION['username'])) {
 }
 
 // Mendapatkan daftar foto dari database
-$query = "SELECT photos.*, users.name AS user_name FROM photos
-          LEFT JOIN users ON photos.user_id = users.user_id";
+if(isset($_GET['query']) && !empty($_GET['query'])) {
+    $search_query = $_GET['query'];
+    $query = "SELECT photos.*, users.name AS user_name FROM photos
+              LEFT JOIN users ON photos.user_id = users.user_id
+              WHERE photos.title LIKE '%$search_query%' OR photos.description LIKE '%$search_query%'";
+} else {
+    $query = "SELECT photos.*, users.name AS user_name FROM photos
+              LEFT JOIN users ON photos.user_id = users.user_id";
+}
+
 $result = mysqli_query($conn, $query);
 
 $photos = [];
@@ -41,8 +49,19 @@ while ($row = mysqli_fetch_assoc($result)) {
         <a href="dashboard.php">Home</a>
         <a href="profile.php">Profile</a>
         <a href="albums_user.php">Album</a>
-        <a href="logout.php">Logout</a>
+        <a href="upload.php">Foto</a>
+        <!-- Tambahkan peringatan logout di sini -->
+        <a href="#" onclick="confirmLogout()">Logout</a>
     </div>
+
+    <!-- Form pencarian -->
+    <div class="search-container flex justify-center mt-4 mb-8">
+    <form action="dashboard.php" method="GET" class="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+        <input type="text" placeholder="Cari foto..." name="query" class="py-2 px-4 focus:outline-none" style="width: 300px;">
+        <button type="submit" class="bg-blue-500 text-white py-2 px-4 hover:bg-blue-600 transition-colors duration-300">Cari</button>
+    </form>
+</div>
+
 
     <div class="gallery grid mx-auto p-4">
         <?php foreach ($photos as $photo) : ?>
@@ -94,11 +113,14 @@ while ($row = mysqli_fetch_assoc($result)) {
         <?php endforeach; ?>
     </div>
 
-    <div class="center-box">
-        <div class="upload-box">
-            <a href="upload.php">Unggah Foto</a>
-        </div>
-    </div>
+    <!-- Tambahkan fungsi JavaScript untuk peringatan logout -->
+    <script>
+        function confirmLogout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                window.location.href = 'index.php';
+            }
+        }
+    </script>
 
     <div class="footer">
         <p>© 2024 My Website</p>

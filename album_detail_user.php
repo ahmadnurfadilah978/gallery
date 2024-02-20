@@ -62,20 +62,23 @@ while ($row = mysqli_fetch_assoc($result_photos)) {
 }
     </style>
 <head>
-    <!-- Add Tailwind CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <!-- Add Lightbox2 CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+    <!-- Add jQuery (Lightbox2 requires jQuery) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!-- Add Lightbox2 JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+    
 </head>
 <body class="bg-gray-100">
 <div class="navbar">
     <h2>Selamat Datang, <?php echo $_SESSION['username']; ?>!</h2>
     <a href="dashboard.php">Home</a>
     <a href="profile.php">Profile</a>
-    <a href="albums_user.php">Lihat Album</a>
-    <a href="logout.php">Logout</a>
+    <a href="albums_user.php"> Album</a>
+    <a href="upload.php">Foto</a>
+    <a href="#" onclick="confirmLogout()">Logout</a>
 </div>
 
 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-8">
@@ -99,6 +102,13 @@ while ($row = mysqli_fetch_assoc($result_photos)) {
 </div>
 
 </body>
+<script>
+        function confirmLogout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                window.location.href = 'logout.php';
+            }
+        }
+    </script>
 </html>
 
 

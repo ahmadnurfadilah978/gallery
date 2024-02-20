@@ -11,9 +11,16 @@ if (!isset($_SESSION['username']) || $_SESSION['access_level'] !== 'admin') {
 // Mendapatkan ID pengguna yang sedang login
 $user_id = $_SESSION['userid'];
 
-// Mendapatkan daftar foto dari database
+// Mendapatkan daftar foto dari database, atau hasil pencarian jika ada
 $query = "SELECT photos.*, users.name AS user_name FROM photos
           LEFT JOIN users ON photos.user_id = users.user_id";
+
+// Jika ada permintaan pencarian, sesuaikan kueri untuk mencocokkan hasil pencarian
+if(isset($_GET['query']) && !empty($_GET['query'])){
+    $search_query = $_GET['query'];
+    $query .= " WHERE photos.title LIKE '%$search_query%' OR photos.description LIKE '%$search_query%'";
+}
+
 $result = mysqli_query($conn, $query);
 
 $photos = [];
@@ -30,6 +37,10 @@ while ($row = mysqli_fetch_assoc($result)) {
     <title>Admin Dashboard</title>
     <!-- Tambahkan link CSS di sini -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+    <!-- Add jQuery (Lightbox2 requires jQuery) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Add Lightbox2 JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
     <link rel="stylesheet" href="./css/fontawesome.min.css">
     <link rel="stylesheet" href="./css/all.min.css">
@@ -44,8 +55,18 @@ while ($row = mysqli_fetch_assoc($result)) {
             <a href="data_pengguna.php" class="hover:text-gray-400 ml-4">Users</a>
             <a href="albums.php" class="hover:text-gray-400 ml-4">Albums</a>
             <a href="fotoadmin.php" class="hover:text-gray-400 ml-4">Foto</a>
-            <a href="login.php" class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 ml-4">Logout</a>
+            <div class="ml-auto">
+                <a href="#" onclick="confirmLogout()" class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600">Logout</a>
+            </div>
         </div>
+    </div>
+
+    <!-- Form for search -->
+    <div class="search-container flex justify-center mt-4 mb-8">
+        <form action="admin_dashboard.php" method="GET" class="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+            <input type="text" placeholder="Cari foto..." name="query" class="py-2 px-4 focus:outline-none" style="width: 300px;">
+            <button type="submit" class="bg-blue-500 text-white py-2 px-4 hover:bg-blue-600 transition-colors duration-300">Cari</button>
+        </form>
     </div>
 
     <!-- Galeri Foto -->
@@ -101,5 +122,13 @@ while ($row = mysqli_fetch_assoc($result)) {
         <?php endforeach; ?>
         </div>
     </div>
+
+    <script>
+        function confirmLogout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                window.location.href = 'index.php';
+            }
+        }
+    </script>
 </body>
 </html>

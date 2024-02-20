@@ -3,12 +3,7 @@ require('koneksi.php');
 session_start();
 
 // Jika tombol "Guest Login" ditekan
-if(isset($_POST['guest'])) {
-    // Set session username sebagai 'guest'
-    $_SESSION['username'] = 'guest';
-    header("Location: dashboard_guest.php"); // Ganti dengan nama halaman dashboard akun tamu
-    exit();
-}
+
 
 // Jika form login disubmit
 if (isset($_POST['username'])) {
@@ -67,8 +62,7 @@ if (isset($_POST['username'])) {
             <input type="text" name="username" placeholder="Username" class="block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-400 focus:ring focus:ring-blue-400 focus:ring-opacity-50 mb-3 px-4 py-2" required />
             <input type="password" name="password" placeholder="Password" class="block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-400 focus:ring focus:ring-blue-400 focus:ring-opacity-50 mb-3 px-4 py-2" required />
             <input name="submit" type="submit" value="Login" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" />
-            <input name="guest" type="submit" value="Guest Login" class="w-full bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mt-2" />
-        </form>
+            </form>
         <p class="text-center mt-4">Belum Terdaftar? <a href='registration.php' class="text-blue-500">Daftar Disini</a></p>
     </div>
 </body>

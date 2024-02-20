@@ -25,6 +25,8 @@ while ($row = mysqli_fetch_assoc($result)) {
 <head>
     <!-- Add Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/fontawesome.min.css">
+    <link rel="stylesheet" href="./css/all.min.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
@@ -65,39 +67,48 @@ while ($row = mysqli_fetch_assoc($result)) {
         <a href="dashboard.php">Home</a>
         <a href="profile.php">Profile</a>
         <a href="albums_user.php">Album</a>
-        <a href="logout.php">Logout</a>
+        <a href="upload.php">Foto</a>
+        <a href="#" onclick="confirmLogout()">Logout</a>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols- lg:grid-cols-5 gap-4 mx-auto p-4">
-        <?php foreach ($albums as $album) : ?>
-            <div class="overflow-hidden rounded-lg shadow-md bg-white flex flex-col transform hover:scale-105 transition duration-300">
-                <a href="album_detail_user.php?album_id=<?php echo $album['album_id']; ?>">
-                    <div class="p-4 flex-grow">
-                        <h4 class="text-xl font-semibold mb-2"><?php echo $album['title']; ?></h4>
-                        <p class="text-gray-600 mb-2"><?php echo $album['description']; ?></p> <!-- Menampilkan deskripsi -->
-                        <!-- Tambahkan tombol edit dan hapus -->
-                        <div class="p-4 flex justify-between">
-                            <a href="edit_album.php?album_id=<?php echo $album['album_id']; ?>" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"></i> Edit </a>
-                            
-                            <form action="delete_album.php" method="post">
-                                <input type="hidden" name="album_id" value="<?php echo $album['album_id']; ?>">
-                                <button type="submit" onclick="return confirm('Are you sure you want to delete this album?');" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">Hapus</button>
-                            </form>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        <?php endforeach; ?>
-    </div>
+    <?php foreach ($albums as $album) : ?>
+        <div class="overflow-hidden rounded-lg shadow-md bg-white flex flex-col transform hover:scale-105 transition duration-300 relative">
+            <a href="album_detail_user.php?album_id=<?php echo $album['album_id']; ?>">
+                <div class="p-4 flex-grow">
+                    <h4 class="text-xl font-semibold mb-2"><?php echo $album['title']; ?></h4>
+                    <p class="text-gray-600 mb-9"><?php echo $album['description']; ?></p>
+                    <!-- Menampilkan deskripsi -->
+                </div>
+            </a>
+            <!-- Tambahkan tombol edit -->
+            <a href="edit_album.php?album_id=<?php echo $album['album_id']; ?>" class="absolute left-0 bottom-0 p-4">
+                <i class="fa-regular fa-pen-to-square text-blue-500 hover:text-blue-700"></i>
+            </a>
+            <!-- Tambahkan tombol hapus -->
+            <form action="delete_album.php" method="post" class="absolute right-0 bottom-0 p-4">
+                <input type="hidden" name="album_id" value="<?php echo $album['album_id']; ?>">
+                <button type="submit" onclick="return confirm('Are you sure you want to delete this album?');" class="text-red-500 hover:text-red-700"><i class="fa-sharp fa-solid fa-trash"></i></button>
+            </form>
+        </div>
+    <?php endforeach; ?>
+</div>
+
+
 
     <div class="flex justify-center mt-8">
         <a href="create_album_user.php" class="bg-indigo-500 text-white px-6 py-3 rounded-md hover:bg-indigo-600">Buat Album Baru</a>
     </div>
 
-    <div class="mt-8 text-center">
-        <p>© 2023 My Website</p>
-    </div>
+    
 
 </body>
+<script>
+        function confirmLogout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                window.location.href = 'logout.php';
+            }
+        }
+    </script>
 
 </html>

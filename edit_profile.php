@@ -21,12 +21,16 @@ $row = mysqli_fetch_assoc($result_users);
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $email = $_POST['email'];
+    $new_username = $_POST['username']; // Added for username update
 
-    // Update user information in the database
-    $update_query = "UPDATE users SET name='$name', email='$email' WHERE username='$user_id'";
+    // Update user information in the database, including username
+    $update_query = "UPDATE users SET name='$name', email='$email', username='$new_username' WHERE username='$user_id'";
     $result = mysqli_query($conn, $update_query);
 
     if ($result) {
+        // Update session username if it's changed
+        $_SESSION['username'] = $new_username;
+
         header("Location: profile.php");
         exit();
     } else {
@@ -50,6 +54,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container mx-auto p-4">
         <h1 class="text-3xl font-bold mb-6 text-center">Edit Profil</h1>
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" class="max-w-md mx-auto bg-white p-6 rounded-md shadow-md">
+            <div class="mb-4">
+                <label for="username" class="block text-gray-700 font-semibold mb-2">Username:</label>
+                <input type="text" id="username" name="username" value="<?php echo $row['username']; ?>" class="border-2 border-gray-300 rounded-md p-2 w-full focus:outline-none focus:border-blue-500">
+            </div>
             <div class="mb-4">
                 <label for="name" class="block text-gray-700 font-semibold mb-2">Nama:</label>
                 <input type="text" id="name" name="name" value="<?php echo $row['name']; ?>" class="border-2 border-gray-300 rounded-md p-2 w-full focus:outline-none focus:border-blue-500">
