@@ -4,8 +4,8 @@ require('koneksi.php');
 // Jika formulir dikirimkan, masukkan nilai ke dalam database.
 if (isset($_REQUEST['username'])) {
     // Menghapus karakter backslashes
-    $nama = stripslashes($_REQUEST['name']);
-    $nama = mysqli_real_escape_string($conn, $nama);
+    $name = stripslashes($_REQUEST['nama']);
+    $name = mysqli_real_escape_string($conn, $name);
     $username = stripslashes($_REQUEST['username']);
     // Melakukan escape karakter khusus dalam sebuah string
     $username = mysqli_real_escape_string($conn, $username);
@@ -25,8 +25,8 @@ if (isset($_REQUEST['username'])) {
             <br/>Klik di sini untuk <a href='registration.php'>coba lagi</a></div>";
     } else {
         // Jika nama pengguna belum ada, lanjutkan dengan pendaftaran
-        $query = "INSERT into `users` (nama, username, password, email)
-            VALUES ('$nama','$username', '".md5($password)."', '$email')";
+        $query = "INSERT into `users` (name, username, password, email)
+            VALUES ('$name','$username', '".md5($password)."', '$email')";
         $result = mysqli_query($conn, $query);
         if ($result) {
             echo "<div class='form'>

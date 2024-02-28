@@ -1,6 +1,13 @@
 <?php
 include 'koneksi.php';
 
+// Tentukan jumlah data per halaman
+$limit = 8;
+
+// Tentukan halaman saat ini
+$current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+$start = ($current_page - 1) * $limit;
+
 // Inisialisasi variabel query
 $query = "";
 
@@ -16,7 +23,9 @@ if(isset($_GET['query'])) {
               LEFT JOIN likes ON photos.photo_id = likes.photo_id
               LEFT JOIN comments ON photos.photo_id = comments.photo_id
               WHERE photos.title LIKE '%$search%' OR photos.description LIKE '%$search%'
-              GROUP BY photos.photo_id";
+              GROUP BY photos.photo_id
+              ORDER BY photos.photo_id DESC
+              LIMIT $start, $limit";
 } else {
     // Jika parameter query tidak diberikan, ambil semua foto tanpa pencarian
     $query = "SELECT photos.*, users.name AS user_name, COUNT(likes.like_id) AS total_likes, COUNT(comments.comment_id) AS total_comments
@@ -24,7 +33,9 @@ if(isset($_GET['query'])) {
               LEFT JOIN users ON photos.user_id = users.user_id
               LEFT JOIN likes ON photos.photo_id = likes.photo_id
               LEFT JOIN comments ON photos.photo_id = comments.photo_id
-              GROUP BY photos.photo_id";
+              GROUP BY photos.photo_id
+              ORDER BY photos.photo_id DESC
+              LIMIT $start, $limit";
 }
 
 $result = mysqli_query($conn, $query);
@@ -33,6 +44,18 @@ $photos = [];
 while ($row = mysqli_fetch_assoc($result)) {
     $photos[] = $row;
 }
+
+// Hitung total jumlah data
+if(isset($_GET['query'])) {
+    $search = mysqli_real_escape_string($conn, $_GET['query']);
+    $count_query = "SELECT COUNT(*) as total FROM photos WHERE title LIKE '%$search%' OR description LIKE '%$search%'";
+} else {
+    $count_query = "SELECT COUNT(*) as total FROM photos";
+}
+
+$count_result = mysqli_query($conn, $count_query);
+$count_data = mysqli_fetch_assoc($count_result);
+$total_pages = ceil($count_data['total'] / $limit);
 
 ?>
 
@@ -53,7 +76,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 </head>
 <body class="bg-gray-100">
     <div class="navbar bg-gray-800 text-white p-4 flex justify-between">
-        <h2 class="text-lg font-bold">Selamat Datang, Guest!</h2>
+        <h2 class="text-lg font-bold">Selamat Datang</h2>
         <div class="flex space-x-4">
             <a href="login.php" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Login</a>
         </div>
@@ -89,6 +112,34 @@ while ($row = mysqli_fetch_assoc($result)) {
                     </div>
                 </div>
             <?php endforeach; ?>
+        </div>
+
+        <!-- Navigasi pagination -->
+        <div class="pagination mt-4 mb-8">
+            <ul class="flex justify-center">
+                <!-- Tombol Halaman Sebelumnya -->
+                <?php if ($current_page > 1) : ?>
+                    <li class="mr-2">
+                        <a href="?page=<?php echo $current_page - 1; ?>&query=<?php echo isset($_GET['query']) ? $_GET['query'] : ''; ?>" class="text-blue-500 hover:text-blue-700">Previous</a>
+                    </li>
+                <?php endif; ?>
+
+                <!-- Tautan ke setiap halaman -->
+                <?php for ($i = 1; $i <= $total_pages; $i++) : ?>
+                    <li class="mx-2">
+                        <a href="?page=<?php echo $i; ?>&query=<?php echo isset($_GET['query']) ? $_GET['query'] : ''; ?>" class="<?php echo ($current_page == $i) ? 'font-bold' : ''; ?>">
+                            <?php echo $i; ?>
+                        </a>
+                    </li>
+                <?php endfor; ?>
+
+                <!-- Tombol Halaman Berikutnya -->
+                <?php if ($current_page < $total_pages) : ?>
+                    <li class="ml-2">
+                        <a href="?page=<?php echo $current_page + 1; ?>&query=<?php echo isset($_GET['query']) ? $_GET['query'] : ''; ?>" class="text-blue-500 hover:text-blue-700">Next</a>
+                    </li>
+                <?php endif; ?>
+            </ul>
         </div>
     </div>
 

@@ -1,18 +1,42 @@
 <?php
+// Masukkan koneksi.php
 require_once('koneksi.php');
 session_start();
 
-// Periksa apakah pengguna sudah login dan memiliki akses admin
+// Cek apakah pengguna telah login dan merupakan admin
 if (!isset($_SESSION['username']) || $_SESSION['access_level'] !== 'admin') {
     header("Location: admin_dashboard.php");
     exit();
 }
+
+// Dapatkan username admin saat ini
+$currentAdminUsername = $_SESSION['username'];
+
+// Ambil data pengguna dari database
 $query_users = "SELECT * FROM users";
 $result_users = mysqli_query($conn, $query_users);
 
 $users = [];
 while ($row = mysqli_fetch_assoc($result_users)) {
     $users[] = $row;
+}
+
+// Proses form jika ada aksi yang dikirimkan
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
+    if ($_POST['action'] === 'delete' && isset($_POST['user_id'])) {
+        $user_id = $_POST['user_id'];
+        // Peringatan sebelum menghapus pengguna
+        echo "<script>
+                if(confirm('Are you sure you want to delete this user?')) {
+                    window.location.href = 'delete_user.php?id=$user_id';
+                }
+              </script>";
+    } elseif ($_POST['action'] === 'edit' && isset($_POST['user_id'])) {
+        $user_id = $_POST['user_id'];
+        // Redirect ke halaman edit_user.php dengan membawa parameter user_id
+        header("Location: edit_user.php?id=$user_id");
+        exit();
+    }
 }
 ?>
 
@@ -24,6 +48,11 @@ while ($row = mysqli_fetch_assoc($result_users)) {
     <title>User List</title>
     <!-- Tambahkan link CSS di sini -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/fontawesome.min.css">
+    <link rel="stylesheet" href="./css/all.min.css">
+    <style>
+        /* Tambahkan CSS kustom di sini */
+    </style>
 </head>
 <body>
 
@@ -36,10 +65,12 @@ while ($row = mysqli_fetch_assoc($result_users)) {
             <a href="data_pengguna.php" class="hover:text-gray-400 ml-4">Users</a>
             <a href="albums.php" class="hover:text-gray-400 ml-4">Albums</a>
             <a href="fotoadmin.php" class="hover:text-gray-400 ml-4">Foto</a>
-            <a href="login.php" class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 ml-4">Logout</a>
+            <div class="ml-auto">
+                <!-- Tambahkan peringatan sebelum logout -->
+                <a href="#" onclick="confirmLogout()" class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600">Logout</a>
+            </div>        
         </div>
     </div>
-
 
     <div class="container mx-auto p-8">
         <h2 class="text-2xl font-bold mb-4">User List</h2>
@@ -58,7 +89,7 @@ while ($row = mysqli_fetch_assoc($result_users)) {
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Access Level</th>
-                
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                 </tr>
             </thead>
             <tbody id="userTableBody" class="bg-white divide-y divide-gray-200">
@@ -69,14 +100,31 @@ while ($row = mysqli_fetch_assoc($result_users)) {
                         <td class="px-6 py-4 whitespace-nowrap"><?php echo $user['username']; ?></td>
                         <td class="px-6 py-4 whitespace-nowrap"><?php echo $user['email']; ?></td>
                         <td class="px-6 py-4 whitespace-nowrap"><?php echo $user['access_level']; ?></td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">                    </tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <!-- Form Edit dan Delete -->
+                            <form method="POST">
+                                <?php if ($user['username'] !== $currentAdminUsername) : ?>
+                                    <!-- Tombol Edit -->
+                                    <button type="submit" name="action" value="edit" class="text-blue-500 hover:text-blue-700 mr-2">
+                                        <i class="fa-regular fa-pen-to-square"></i>
+                                    </button>
+                                    <!-- Tombol Hapus -->
+                                    <button type="submit" name="action" value="delete" class="text-red-500 hover:text-red-700">
+                                        <i class="fa-sharp fa-solid fa-trash"></i>
+                                    </button>
+                                <?php endif; ?>
+                                <!-- Hidden input untuk mengirim user_id -->
+                                <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
+                            </form>
+                        </td>
+                    </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
     </div>
 
-    <!-- Tambahkan script JavaScript untuk filter pencarian -->
     <script>
+        // Fungsi untuk pencarian
         document.getElementById('searchInput').addEventListener('input', function() {
             const searchQuery = this.value.toLowerCase();
             const rows = document.querySelectorAll('.userDataRow');
@@ -90,6 +138,14 @@ while ($row = mysqli_fetch_assoc($result_users)) {
                 }
             });
         });
+
+        // Fungsi untuk konfirmasi logout
+        function confirmLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                window.location.href = 'index.php';
+            }
+        }
     </script>
+
 </body>
 </html>

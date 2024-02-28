@@ -42,8 +42,10 @@ while ($row = mysqli_fetch_assoc($result)) {
             <a href="data_pengguna.php" class="hover:text-gray-400 ml-4">Users</a>
             <a href="albums.php" class="hover:text-gray-400 ml-4">Albums</a>
             <a href="fotoadmin.php" class="hover:text-gray-400 ml-4">Foto</a>
-            <a href="login.php" class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 ml-4">Logout</a>
-        </div>
+            <div class="ml-auto">
+                <a href="index.php" class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600">Logout</a>
+            </div>    
+            </div>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mx-auto p-4">

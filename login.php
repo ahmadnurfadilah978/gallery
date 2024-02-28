@@ -1,35 +1,31 @@
 <?php
+session_start(); // Mulai session
+
 require('koneksi.php');
-session_start();
 
-// Jika tombol "Guest Login" ditekan
+// Proses form login
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username']) && isset($_POST['password'])) {
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
 
-
-// Jika form login disubmit
-if (isset($_POST['username'])) {
-    $username = stripslashes($_REQUEST['username']);
-    $username = mysqli_real_escape_string($conn, $username);
-    $password = stripslashes($_REQUEST['password']);
-    $password = mysqli_real_escape_string($conn, $password);
-
-    $query = "SELECT * FROM `users` WHERE username='$username' AND password='".md5($password)."'";
+    // Query untuk mendapatkan data pengguna berdasarkan username
+    $query = "SELECT * FROM `users` WHERE username='$username'";
     $result = mysqli_query($conn, $query) or die(mysqli_error($conn));
-    $rows = mysqli_num_rows($result);
     $row = mysqli_fetch_assoc($result);
-    if ($rows == 1) {
-        if ($row['access_level'] == 'admin') {
-            $_SESSION['username'] = $username;
-            $_SESSION['userid'] = $row['user_id'];
-            $_SESSION['access_level'] = 'admin';
+
+    // Periksa apakah pengguna ditemukan dan password cocok
+    if ($row && md5($password) === $row['password']) {
+        $_SESSION['username'] = $username;
+        $_SESSION['userid'] = $row['user_id'];
+        $_SESSION['access_level'] = $row['access_level'];
+
+        // Redirect sesuai dengan akses level
+        if ($row['access_level'] === 'admin') {
             header("Location: admin_dashboard.php");
-            exit(); // Exit to prevent further execution
         } else {
-            $_SESSION['username'] = $username;
-            $_SESSION['userid'] = $row['user_id'];
-            $_SESSION['access_level'] = 'user';
             header("Location: dashboard.php");
-            exit(); // Exit to prevent further execution
         }
+        exit(); // Keluar untuk menghentikan eksekusi lebih lanjut
     } else {
         echo "<div class='form-container mx-auto mt-20'>
             <h1 class='text-center text-2xl font-bold mb-4'>Log In</h1>
@@ -38,14 +34,12 @@ if (isset($_POST['username'])) {
                 <input type='text' name='username' placeholder='Username' class='block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-400 focus:ring focus:ring-blue-400 focus:ring-opacity-50 mb-3 px-4 py-2' required />
                 <input type='password' name='password' placeholder='Password' class='block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-400 focus:ring focus:ring-blue-400 focus:ring-opacity-50 mb-3 px-4 py-2' required />
                 <input name='submit' type='submit' value='Login' class='w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' />
-                <input name='guest' type='submit' value='Guest Login' class='w-full bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mt-2' />
             </form>
             <p class='text-center mt-4'>Belum Terdaftar? <a href='registration.php' class='text-blue-500'>Register Here</a></p>
         </div>";
     }
 } else {
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -62,12 +56,11 @@ if (isset($_POST['username'])) {
             <input type="text" name="username" placeholder="Username" class="block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-400 focus:ring focus:ring-blue-400 focus:ring-opacity-50 mb-3 px-4 py-2" required />
             <input type="password" name="password" placeholder="Password" class="block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-400 focus:ring focus:ring-blue-400 focus:ring-opacity-50 mb-3 px-4 py-2" required />
             <input name="submit" type="submit" value="Login" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" />
-            </form>
+        </form>
         <p class="text-center mt-4">Belum Terdaftar? <a href='registration.php' class="text-blue-500">Daftar Disini</a></p>
     </div>
 </body>
 </html>
-
 <?php
 }
 ?>

@@ -21,6 +21,20 @@ if(isset($_GET['query']) && !empty($_GET['query'])){
     $query .= " WHERE photos.title LIKE '%$search_query%' OR photos.description LIKE '%$search_query%'";
 }
 
+// Tambahkan pengurutan secara menurun berdasarkan ID foto
+$query .= " ORDER BY photos.photo_id DESC";
+
+$result = mysqli_query($conn, $query);
+
+// Pagination
+$limit = 8;
+$total_records = mysqli_num_rows($result);
+$total_pages = ceil($total_records / $limit);
+$current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+$start = ($current_page - 1) * $limit;
+
+$query .= " LIMIT $start, $limit";
+
 $result = mysqli_query($conn, $query);
 
 $photos = [];
@@ -121,6 +135,31 @@ while ($row = mysqli_fetch_assoc($result)) {
             </div>
         <?php endforeach; ?>
         </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="flex justify-center my-8">
+        <ul class="flex">
+            <?php if ($current_page > 1) : ?>
+                <li class="mr-4">
+                    <a href="?page=<?php echo $current_page - 1; ?>&query=<?php echo isset($_GET['query']) ? $_GET['query'] : ''; ?>" class="text-blue-500 hover:text-blue-700">Previous</a>
+                </li>
+            <?php endif; ?>
+            
+            <?php for ($i = 1; $i <= $total_pages; $i++) : ?>
+                <li class="mr-4">
+                    <a href="?page=<?php echo $i; ?>&query=<?php echo isset($_GET['query']) ? $_GET['query'] : ''; ?>" class="<?php echo ($current_page == $i) ? 'font-bold' : 'text-blue-500 hover:text-blue-700'; ?>">
+                        <?php echo $i; ?>
+                    </a>
+                </li>
+            <?php endfor; ?>
+
+            <?php if ($current_page < $total_pages) : ?>
+                <li>
+                    <a href="?page=<?php echo $current_page + 1; ?>&query=<?php echo isset($_GET['query']) ? $_GET['query'] : ''; ?>" class="text-blue-500 hover:text-blue-700">Next</a>
+                </li>
+            <?php endif; ?>
+        </ul>
     </div>
 
     <script>

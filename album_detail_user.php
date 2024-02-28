@@ -105,7 +105,7 @@ while ($row = mysqli_fetch_assoc($result_photos)) {
 <script>
         function confirmLogout() {
             if (confirm('Apakah Anda yakin ingin logout?')) {
-                window.location.href = 'logout.php';
+                window.location.href = 'index.php';
             }
         }
     </script>

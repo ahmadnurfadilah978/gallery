@@ -19,6 +19,15 @@ if(isset($_GET['query']) && !empty($_GET['query'])) {
               LEFT JOIN users ON photos.user_id = users.user_id";
 }
 
+$limit = 8;
+$current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+$start = ($current_page - 1) * $limit;
+
+$total_records = mysqli_num_rows(mysqli_query($conn, $query));
+$total_pages = ceil($total_records / $limit);
+
+$query .= " ORDER BY photos.photo_id DESC LIMIT $start, $limit";
+
 $result = mysqli_query($conn, $query);
 
 $photos = [];
@@ -56,12 +65,11 @@ while ($row = mysqli_fetch_assoc($result)) {
 
     <!-- Form pencarian -->
     <div class="search-container flex justify-center mt-4 mb-8">
-    <form action="dashboard.php" method="GET" class="flex items-center border border-gray-300 rounded-lg overflow-hidden">
-        <input type="text" placeholder="Cari foto..." name="query" class="py-2 px-4 focus:outline-none" style="width: 300px;">
-        <button type="submit" class="bg-blue-500 text-white py-2 px-4 hover:bg-blue-600 transition-colors duration-300">Cari</button>
-    </form>
-</div>
-
+        <form action="dashboard.php" method="GET" class="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+            <input type="text" placeholder="Cari foto..." name="query" class="py-2 px-4 focus:outline-none" style="width: 300px;">
+            <button type="submit" class="bg-blue-500 text-white py-2 px-4 hover:bg-blue-600 transition-colors duration-300">Cari</button>
+        </form>
+    </div>
 
     <div class="gallery grid mx-auto p-4">
         <?php foreach ($photos as $photo) : ?>
@@ -111,6 +119,34 @@ while ($row = mysqli_fetch_assoc($result)) {
                 </div>
             </div>
         <?php endforeach; ?>
+    </div>
+
+    <!-- Navigasi pagination -->
+    <div class="pagination mt-4 mb-8">
+        <ul class="flex justify-center">
+            <!-- Tombol Halaman Sebelumnya -->
+            <?php if ($current_page > 1) : ?>
+                <li class="mr-2">
+                    <a href="?page=<?php echo $current_page - 1; ?>&query=<?php echo isset($_GET['query']) ? $_GET['query'] : ''; ?>" class="text-blue-500 hover:text-blue-700">Previous</a>
+                </li>
+            <?php endif; ?>
+
+            <!-- Tautan ke setiap halaman -->
+            <?php for ($i = 1; $i <= $total_pages; $i++) : ?>
+                <li class="mx-2">
+                    <a href="?page=<?php echo $i; ?>&query=<?php echo isset($_GET['query']) ? $_GET['query'] : ''; ?>" class="<?php echo ($current_page == $i) ? 'font-bold' : ''; ?>">
+                        <?php echo $i; ?>
+                    </a>
+                </li>
+            <?php endfor; ?>
+
+            <!-- Tombol Halaman Berikutnya -->
+            <?php if ($current_page < $total_pages) : ?>
+                <li class="ml-2">
+                    <a href="?page=<?php echo $current_page + 1; ?>&query=<?php echo isset($_GET['query']) ? $_GET['query'] : ''; ?>" class="text-blue-500 hover:text-blue-700">Next</a>
+                </li>
+            <?php endif; ?>
+        </ul>
     </div>
 
     <!-- Tambahkan fungsi JavaScript untuk peringatan logout -->

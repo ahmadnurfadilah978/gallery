@@ -106,7 +106,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 <script>
         function confirmLogout() {
             if (confirm('Apakah Anda yakin ingin logout?')) {
-                window.location.href = 'logout.php';
+                window.location.href = 'index.php';
             }
         }
     </script>

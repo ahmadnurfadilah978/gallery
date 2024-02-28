@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <a href="dashboard.php">Home</a>
         <a href="profile.php">Profile</a>
         <a href="albums_user.php">Lihat Album</a>
-        <a href="logout.php">Logout</a>
+        <a href="index.php">Logout</a>
     </div>
 
     <div class="container mx-auto mt-8">
