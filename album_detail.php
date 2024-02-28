@@ -50,16 +50,8 @@ while ($row = mysqli_fetch_assoc($result_photos)) {
 
 <body class="bg-gray-100">
 
-    <div class="navbar bg-gray-800 text-white p-4">
-        <h2 class="text-lg font-bold">Admin Dashboard</h2>
-        <div class="flex items-center">
-            <span class="mr-4">Welcome, <?php echo $_SESSION['username']; ?>!</span>
-            <a href="admin_dashboard.php" class="hover:text-gray-400">Home</a>
-            <a href="data_pengguna.php" class="hover:text-gray-400 ml-4">Lihat Data Pengguna</a>
-            <a href="albums.php" class="hover:text-gray-400 ml-4">Albums</a>
-            <a href="fotoadmin.php" class="hover:text-gray-400 ml-4">Foto</a>
-            <a href="login.php" class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 ml-4">Logout</a>
-        </div>
+<?php  include 'navbar_admin.php';  ?>
+
     </div>
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-8">
     <?php foreach ($photos as $photo) : ?>

@@ -32,44 +32,13 @@ while ($row = mysqli_fetch_assoc($result)) {
     <title>Admin Dashboard</title>
 
     <!-- Add custom CSS -->
-    <style>
-        .navbar {
-            overflow: hidden;
-            background-color: #3498db;
-            padding: 10px;
-            text-align: center
-        }
 
-        .navbar h2 {
-            margin: 0;
-            color: #f2f2f2;
-        }
-
-        .navbar a {
-            color: #f2f2f2;
-            text-decoration: none;
-            padding: 14px 16px;
-            display: inline-block;
-            transition: 0.3s;
-        }
-
-        .navbar a:hover {
-            background-color: #ddd;
-            color: black;
-        }
-    </style>
 </head>
 
 <body class="bg-gray-100">
 
-    <div class="navbar">
-        <h2>Selamat Datang, <?php echo $_SESSION['username']; ?>!</h2>
-        <a href="dashboard.php">Home</a>
-        <a href="profile.php">Profile</a>
-        <a href="albums_user.php">Album</a>
-        <a href="upload.php">Foto</a>
-        <a href="#" onclick="confirmLogout()">Logout</a>
-    </div>
+<?php  include 'navbar_user.php';  ?>
+
 
     <div class="grid grid-cols-1 md:grid-cols- lg:grid-cols-5 gap-4 mx-auto p-4">
     <?php foreach ($albums as $album) : ?>
@@ -103,12 +72,6 @@ while ($row = mysqli_fetch_assoc($result)) {
     
 
 </body>
-<script>
-        function confirmLogout() {
-            if (confirm('Apakah Anda yakin ingin logout?')) {
-                window.location.href = 'index.php';
-            }
-        }
-    </script>
+
 
 </html>

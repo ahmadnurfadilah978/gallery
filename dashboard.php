@@ -53,15 +53,8 @@ while ($row = mysqli_fetch_assoc($result)) {
 </head>
 
 <body>
-    <div class="navbar">
-        <h2>Selamat Datang, <?php echo $_SESSION['username']; ?>!</h2>
-        <a href="dashboard.php">Home</a>
-        <a href="profile.php">Profile</a>
-        <a href="albums_user.php">Album</a>
-        <a href="upload.php">Foto</a>
-        <!-- Tambahkan peringatan logout di sini -->
-        <a href="#" onclick="confirmLogout()">Logout</a>
-    </div>
+<?php  include 'navbar_user.php';  ?>
+
 
     <!-- Form pencarian -->
     <div class="search-container flex justify-center mt-4 mb-8">
@@ -149,14 +142,6 @@ while ($row = mysqli_fetch_assoc($result)) {
         </ul>
     </div>
 
-    <!-- Tambahkan fungsi JavaScript untuk peringatan logout -->
-    <script>
-        function confirmLogout() {
-            if (confirm('Apakah Anda yakin ingin logout?')) {
-                window.location.href = 'index.php';
-            }
-        }
-    </script>
 
     <div class="footer">
         <p>© 2024 My Website</p>

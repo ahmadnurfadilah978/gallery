@@ -57,28 +57,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 <body>
 
     <!-- Navbar -->
-    <div class="navbar bg-gray-800 text-white p-4">
-        <h2 class="text-lg font-bold">Admin Dashboard</h2>
-        <div class="flex items-center">
-            <span class="mr-4">Welcome, <?php echo $_SESSION['username']; ?>!</span>
-            <a href="admin_dashboard.php" class="hover:text-gray-400">Home</a>
-            <a href="data_pengguna.php" class="hover:text-gray-400 ml-4">Users</a>
-            <a href="albums.php" class="hover:text-gray-400 ml-4">Albums</a>
-            <a href="fotoadmin.php" class="hover:text-gray-400 ml-4">Foto</a>
-            <div class="ml-auto">
-                <!-- Tambahkan peringatan sebelum logout -->
-                <a href="#" onclick="confirmLogout()" class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600">Logout</a>
-            </div>        
-        </div>
-    </div>
+    <?php  include 'navbar_admin.php';  ?>
+
 
     <div class="container mx-auto p-8">
         <h2 class="text-2xl font-bold mb-4">User List</h2>
 
         <!-- Form pencarian -->
         <form class="mb-4">
-            <input id="searchInput" type="text" placeholder="Search by name..." class="w-full px-4 py-2 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-        </form>
+    <input id="searchInput" type="text" placeholder="Search by name..." class="w-48 sm:w-64 px-2 py-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+</form>
+
 
         <!-- Tabel daftar pengguna -->
         <table class="min-w-full divide-y divide-gray-200">
@@ -139,12 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             });
         });
 
-        // Fungsi untuk konfirmasi logout
-        function confirmLogout() {
-            if (confirm('Are you sure you want to logout?')) {
-                window.location.href = 'index.php';
-            }
-        }
+       
     </script>
 
 </body>

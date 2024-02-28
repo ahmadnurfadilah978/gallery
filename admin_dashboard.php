@@ -60,20 +60,8 @@ while ($row = mysqli_fetch_assoc($result)) {
     <link rel="stylesheet" href="./css/all.min.css">
 </head>
 <body>
-    <!-- Navbar -->
-    <div class="navbar bg-gray-800 text-white p-4">
-        <h2 class="text-lg font-bold">Admin Dashboard</h2>
-        <div class="flex items-center">
-            <span class="mr-4">Welcome, <?php echo $_SESSION['username']; ?>!</span>
-            <a href="admin_dashboard.php" class="hover:text-gray-400">Home</a>
-            <a href="data_pengguna.php" class="hover:text-gray-400 ml-4">Users</a>
-            <a href="albums.php" class="hover:text-gray-400 ml-4">Albums</a>
-            <a href="fotoadmin.php" class="hover:text-gray-400 ml-4">Foto</a>
-            <div class="ml-auto">
-                <a href="#" onclick="confirmLogout()" class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600">Logout</a>
-            </div>
-        </div>
-    </div>
+
+            <?php  include 'navbar_admin.php';  ?>
 
     <!-- Form for search -->
     <div class="search-container flex justify-center mt-4 mb-8">
@@ -162,12 +150,6 @@ while ($row = mysqli_fetch_assoc($result)) {
         </ul>
     </div>
 
-    <script>
-        function confirmLogout() {
-            if (confirm('Apakah Anda yakin ingin logout?')) {
-                window.location.href = 'index.php';
-            }
-        }
-    </script>
+  
 </body>
 </html>

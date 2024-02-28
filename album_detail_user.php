@@ -34,33 +34,7 @@ while ($row = mysqli_fetch_assoc($result_photos)) {
 
 <!DOCTYPE html>
 <html lang="en">
-    <style>
-        .navbar {
-    overflow: hidden;
-    background-color: #3498db;
-    padding: 10px;
-    text-align: center
-}
-
-.navbar h2 {
-    margin: 0;
-    color: #f2f2f2;
-}
-
-.navbar a {
-    color: #f2f2f2;
-    text-decoration: none;
-    padding: 14px 16px;
-    display: inline-block;
-    transition: 0.3s;
-}
-
-.navbar a:hover {
-    background-color: #ddd;
-    color: black;
-    
-}
-    </style>
+ 
 <head>
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <!-- Add Lightbox2 CSS -->
@@ -72,14 +46,9 @@ while ($row = mysqli_fetch_assoc($result_photos)) {
     
 </head>
 <body class="bg-gray-100">
-<div class="navbar">
-    <h2>Selamat Datang, <?php echo $_SESSION['username']; ?>!</h2>
-    <a href="dashboard.php">Home</a>
-    <a href="profile.php">Profile</a>
-    <a href="albums_user.php"> Album</a>
-    <a href="upload.php">Foto</a>
-    <a href="#" onclick="confirmLogout()">Logout</a>
-</div>
+    
+<?php  include 'navbar_user.php';  ?>
+
 
 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-8">
     <?php foreach ($photos as $photo) : ?>
