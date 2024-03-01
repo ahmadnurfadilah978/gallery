@@ -6,8 +6,6 @@ body {
 
 }
 
-/* Style for the navigation bar */
-
 
 
 /* Style for the upload box */
@@ -44,6 +42,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+
 }
 
 .footer p {
@@ -53,9 +52,7 @@ body {
 }
 
 /* Float right for a logout box (if used) */
-.logout-box {
-    float: right;
-}
+
 
 .gallery {
     display: grid;

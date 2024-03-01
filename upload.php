@@ -55,14 +55,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="container mx-auto px-4 py-8">
         <h2 class="text-3xl font-semibold mb-8 text-center">Upload Foto</h2>
         <form action="" method="post" enctype="multipart/form-data" class="max-w-md mx-auto bg-white rounded-md overflow-hidden shadow-md p-6">
-            <div class="mb-4">
+        <div class="mb-4">
+                <label for="foto" class="block text-gray-700 font-medium">Pilih Foto:</label>
+                <input type="file" id="foto" name="foto" accept="image/*" required>
+            </div>    
+        <div class="mb-4">
                 <label for="judul" class="block text-gray-700 font-medium">Judul:</label>
                 <input type="text" id="judul" name="judul" class="form-input w-full mt-1 px-4 py-2 border rounded-md focus:outline-none focus:border-indigo-500" required>
             </div>
-            <div class="mb-4">
-                <label for="foto" class="block text-gray-700 font-medium">Pilih Foto:</label>
-                <input type="file" id="foto" name="foto" accept="image/*" required>
-            </div>
+           
             <div class="mb-4">
                 <label for="deskripsifoto" class="block text-gray-700 font-medium">Deskripsi:</label>
                 <textarea id="deskripsifoto" name="deskripsifoto" class="form-textarea w-full mt-1 px-4 py-2 border rounded-md focus:outline-none focus:border-indigo-500" required></textarea>

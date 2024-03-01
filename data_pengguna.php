@@ -25,7 +25,7 @@ while ($row = mysqli_fetch_assoc($result_users)) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     if ($_POST['action'] === 'delete' && isset($_POST['user_id'])) {
         $user_id = $_POST['user_id'];
-        // Peringatan sebelum menghapus pengguna
+        // Tampilkan peringatan sebelum menghapus pengguna
         echo "<script>
                 if(confirm('Are you sure you want to delete this user?')) {
                     window.location.href = 'delete_user.php?id=$user_id';
@@ -65,9 +65,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
         <!-- Form pencarian -->
         <form class="mb-4">
-    <input id="searchInput" type="text" placeholder="Search by name..." class="w-48 sm:w-64 px-2 py-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-</form>
-
+            <input id="searchInput" type="text" placeholder="Search by name..." class="w-48 sm:w-64 px-2 py-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+        </form>
 
         <!-- Tabel daftar pengguna -->
         <table class="min-w-full divide-y divide-gray-200">
@@ -98,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                                         <i class="fa-regular fa-pen-to-square"></i>
                                     </button>
                                     <!-- Tombol Hapus -->
-                                    <button type="submit" name="action" value="delete" class="text-red-500 hover:text-red-700">
+                                    <button type="submit" name="action" value="delete" class="text-red-500 hover:text-red-700" onclick="return confirm('Are you sure you want to delete this user?');">
                                         <i class="fa-sharp fa-solid fa-trash"></i>
                                     </button>
                                 <?php endif; ?>
@@ -128,7 +127,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             });
         });
 
-       
     </script>
 
 </body>

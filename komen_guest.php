@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($conn->query($sql) === TRUE) {
         // Komentar berhasil ditambahkan, redirect ke halaman komentar
-        header("Location: komen_guest.php?photo_id=$photo_id");
+        header("Location: {$_SERVER['PHP_SELF']}?photo_id=$photo_id");
         exit();
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
@@ -37,12 +37,20 @@ if (isset($_GET['delete_comment'])) {
 
     if ($conn->query($delete_sql) === TRUE) {
         // Komentar berhasil dihapus
-        header("Location: komen_guest.php?photo_id=$photo_id");
+        header("Location: {$_SERVER['PHP_SELF']}?photo_id=$photo_id");
         exit();
     } else {
         echo "Error: " . $delete_sql . "<br>" . $conn->error;
     }
 }
+
+// Query untuk mengambil data foto dan deskripsi dari tabel photos
+$sql_photo = "SELECT * FROM photos WHERE photo_id = $photo_id";
+$result_photo = $conn->query($sql_photo);
+
+// Data foto dan deskripsi
+$photo_data = $result_photo->fetch_assoc();
+
 ?>
 
 <!DOCTYPE html>
@@ -50,53 +58,68 @@ if (isset($_GET['delete_comment'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo empty($photo_id) ? 'Parameter photo_id tidak ditemukan' : 'Comments'; ?></title>
+    <title><?php echo empty($photo_id) ? 'Parameter photo_id tidak ditemukan' : 'Photo Detail'; ?></title>
     <!-- Include Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./css/fontawesome.min.css">
-    <link rel="stylesheet" href="./css/all.min.css">
+ 
+    <style>
+        .enlarge-image {
+            width: 100%; /* Menyesuaikan lebar parent container */
+            max-width: 600px; /* Maksimum lebar gambar */
+            height: auto; /* Menyesuaikan tinggi dengan rasio aspek gambar */
+        }
+        .cancel-button {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
+    </style>
 </head>
-<body class="bg-gray-100 min-h-screen flex flex-col justify-center items-center">
-    <div class="bg-white p-6 rounded-lg shadow-md max-w-lg w-full">
-        <?php if (empty($photo_id)): ?>
-            <p class="text-red-600">Parameter photo_id tidak ditemukan.</p>
+<body class="bg-gray-100 min-h-screen flex flex-col justify-center items-center relative"> <!-- Tambahkan kelas relative pada body -->
+    <div class="bg-white p-6 rounded-lg shadow-md max-w-lg w-full relative"> <!-- Tambahkan kelas relative pada div -->
+        <?php if (empty($photo_id) || !$photo_data): ?>
+            <p class="text-red-600">Parameter photo_id tidak ditemukan atau tidak ada data foto untuk ID tersebut.</p>
         <?php else: ?>
-            <h1 class="text-2xl font-bold mb-4">Comments</h1>
-            <div class="mb-4">
-                <!-- Form untuk menambahkan komentar baru -->
-            </div>
-            <?php
-            // Query untuk mengambil komentar sesuai dengan photo_id
-            $sql = "SELECT comments.*, users.username FROM comments 
-                    INNER JOIN users ON comments.user_id = users.user_id
-                    WHERE photo_id = $photo_id";
-            $result = $conn->query($sql);
+            <img class="enlarge-image object-cover mb-2" src="uploads/<?php echo $photo_data['image_path']; ?>" alt="<?php echo $photo_data['title']; ?>">
+            <p class="text-gray-800"><?php echo $photo_data['description']; ?></p>
 
-            if ($result->num_rows > 0) {
-                // Output data dari setiap baris
-                while($row = $result->fetch_assoc()) {
-                    ?>
-                    <div class="bg-gray-200 p-4 rounded-md mb-2 flex justify-between items-center">
-                        <div>
-                            <p class="text-sm text-gray-700"><strong>Komentar dari <?php echo $row["username"]; ?>:</strong></p>
-                            <p class="text-gray-800"><?php echo $row["comment_text"]; ?></p>
+            <!-- Comments Section -->
+            <h2 class="text-xl font-bold mt-6 mb-4">Comments</h2>
+            <div>
+                <?php
+                // Query untuk mengambil komentar sesuai dengan photo_id
+                $sql_comments = "SELECT comments.*, users.username FROM comments 
+                                INNER JOIN users ON comments.user_id = users.user_id
+                                WHERE photo_id = $photo_id";
+                $result_comments = $conn->query($sql_comments);
+
+                if ($result_comments->num_rows > 0) {
+                    // Output data dari setiap baris
+                    while($row = $result_comments->fetch_assoc()) {
+                        ?>
+                        <div class="bg-gray-200 p-4 rounded-md mb-2 flex justify-between items-center">
+                            <div>
+                                <p class="text-sm text-gray-700"><strong>Comment by <?php echo $row["username"]; ?>:</strong></p>
+                                <p class="text-gray-800"><?php echo $row["comment_text"]; ?></p>
+                            </div>
+                            <?php if ($row['user_id'] == $_SESSION['userid']): ?>
+                                <!-- Tombol hapus komentar -->
+                            <?php endif; ?>
                         </div>
-                        <?php if ($row['user_id'] == $_SESSION['userid']): ?>
-                            <!-- Tombol hapus komentar -->
-                            <a href="?photo_id=<?php echo $photo_id; ?>&delete_comment=<?php echo $row['comment_id']; ?>"></a>
-                        <?php endif; ?>
-                    </div>
-                    <?php
+                        <?php
+                    }
+                } else {
+                    echo '<p class="text-gray-700">No comments yet.</p>';
                 }
-            } else {
-                echo '<p class="text-gray-700">Belum ada komentar untuk foto ini.</p>';
-            }
-            ?>
+                ?>
+            </div>
+
+            <!-- Form untuk menambahkan komentar -->
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?photo_id=' . $photo_id; ?>" method="post" class="mt-6 relative"> <!-- Tambahkan kelas relative pada form -->
+                <div class="mb-4"> </div>
+                <a href="index.php" class="cancel-button font-bold text-blue-500 hover:text-blue-700 hover:underline">Cancel</a> 
+            </form>
         <?php endif; ?>
     </div>
-    <div class="mt-4 text-center">
-            <a href="index.php" class="text-indigo-500 hover:underline">Kembali ke Beranda</a>
-        </div>
-
 </body>
 </html>

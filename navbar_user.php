@@ -6,7 +6,7 @@
         <a href="upload.php" class="text-white hover:bg-blue-600 px-4 py-2 rounded transition duration-300">Foto</a>
         <div class="relative">
             <button id="profileBtn" class="text-white hover:bg-blue-600 px-4 py-2 rounded transition duration-300">Profile</button>
-            <div id="profileDropdown" class="absolute hidden bg-white border border-gray-200 z-10 right-0 mt-2 rounded shadow-md w-40">
+            <div id="profileDropdown" class="absolute hidden bg-white border border-gray-200 z-10 right-0 mt-4 rounded shadow-md w-40">
                 <a href="profile.php" class="block px-4 py-2 hover:bg-gray-100 transition duration-300">Edit Profile</a>
                 <a href="#" onclick="confirmLogout()" class="block px-4 py-2 hover:bg-gray-100 transition duration-300">Logout</a>
             </div>

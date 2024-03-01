@@ -73,6 +73,9 @@ $total_pages = ceil($count_data['total'] / $limit);
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!-- Add Lightbox2 JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+
+    <link rel="stylesheet" href="./css/fontawesome.min.css">
+    <link rel="stylesheet" href="./css/all.min.css">
 </head>
 <body class="bg-gray-100">
     <div class="navbar bg-gray-800 text-white p-4 flex justify-between">
@@ -98,9 +101,10 @@ $total_pages = ceil($count_data['total'] / $limit);
                         <img class="w-full h-40 object-cover mb-2" src="uploads/<?php echo $photo['image_path']; ?>" alt="<?php echo $photo['title']; ?>">
                     </a>
                     <div class="p-4 flex-grow">
-                        <p class="text-xl font-semibold mb-3"> <?php echo $photo['user_name']; ?></p>
-                        <h4 class="text-xl font-semibold mb-2"><?php echo $photo['title']; ?></h4>
+                        <h4 class="text-xl font-bold mb-2"><?php echo $photo['title']; ?></h4>
                         <p class="text-gray-600 mb-2"><?php echo $photo['description']; ?></p>
+                        <p class="  font-semibold mb-2"> <?php echo $photo['user_name']; ?></p>
+
                         <!-- Jumlah Like dan Komentar -->
                         <div class="flex justify-between items-center">
                             <p class="text-gray-600 mr-4"><?php echo $photo['total_likes']; ?> Likes</p>
@@ -115,40 +119,35 @@ $total_pages = ceil($count_data['total'] / $limit);
         </div>
 
         <!-- Navigasi pagination -->
-        <div class="pagination mt-4 mb-8">
-            <ul class="flex justify-center">
-                <!-- Tombol Halaman Sebelumnya -->
-                <?php if ($current_page > 1) : ?>
-                    <li class="mr-2">
-                        <a href="?page=<?php echo $current_page - 1; ?>&query=<?php echo isset($_GET['query']) ? $_GET['query'] : ''; ?>" class="text-blue-500 hover:text-blue-700">Previous</a>
-                    </li>
-                <?php endif; ?>
+        <div class="pagination mt-9 mb-8">
+    <ul class="flex justify-center items-center">
+        <!-- Tombol Halaman Sebelumnya -->
+        <?php if ($current_page > 1) : ?>
+            <li class="mr-2">
+                <a href="?page=<?php echo $current_page - 1; ?>&query=<?php echo isset($_GET['query']) ? $_GET['query'] : ''; ?>" class="text-white px-4 py-2 rounded-md bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-600 hover:to-blue-800 transition-colors duration-300">Previous</a>
+            </li>
+        <?php endif; ?>
 
-                <!-- Tautan ke setiap halaman -->
-                <?php for ($i = 1; $i <= $total_pages; $i++) : ?>
-                    <li class="mx-2">
-                        <a href="?page=<?php echo $i; ?>&query=<?php echo isset($_GET['query']) ? $_GET['query'] : ''; ?>" class="<?php echo ($current_page == $i) ? 'font-bold' : ''; ?>">
-                            <?php echo $i; ?>
-                        </a>
-                    </li>
-                <?php endfor; ?>
+        <!-- Tautan ke setiap halaman -->
+        <?php for ($i = 1; $i <= $total_pages; $i++) : ?>
+            <li class="mx-1">
+                <a href="?page=<?php echo $i; ?>&query=<?php echo isset($_GET['query']) ? $_GET['query'] : ''; ?>" class="<?php echo ($current_page == $i) ? 'font-bold text-blue-600' : 'text-gray-600 hover:text-blue-600'; ?> px-4 py-2 rounded-md hover:bg-blue-100 transition-colors duration-300"><?php echo $i; ?></a>
+            </li>
+        <?php endfor; ?>
 
-                <!-- Tombol Halaman Berikutnya -->
-                <?php if ($current_page < $total_pages) : ?>
-                    <li class="ml-2">
-                        <a href="?page=<?php echo $current_page + 1; ?>&query=<?php echo isset($_GET['query']) ? $_GET['query'] : ''; ?>" class="text-blue-500 hover:text-blue-700">Next</a>
-                    </li>
-                <?php endif; ?>
-            </ul>
-        </div>
-    </div>
+        <!-- Tombol Halaman Berikutnya -->
+        <?php if ($current_page < $total_pages) : ?>
+            <li class="ml-2">
+                <a href="?page=<?php echo $current_page + 1; ?>&query=<?php echo isset($_GET['query']) ? $_GET['query'] : ''; ?>" class="text-white px-4 py-2 rounded-md bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-600 hover:to-blue-800 transition-colors duration-300">Next</a>
+            </li>
+        <?php endif; ?>
+    </ul>
+</div>
 
     <div class="footer bg-gray-800 text-white p-4 text-center mt-8">
         <p>© 2024 My Website</p>
     </div>
 
-    <!-- Add Font Awesome Script -->
-    <link rel="stylesheet" href="./css/fontawesome.min.css">
-    <link rel="stylesheet" href="./css/all.min.css">
+    
 </body>
 </html>
