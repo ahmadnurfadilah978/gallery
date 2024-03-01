@@ -144,9 +144,7 @@ $total_pages = ceil($count_data['total'] / $limit);
     </ul>
 </div>
 
-    <div class="footer bg-gray-800 text-white p-4 text-center mt-8">
-        <p>© 2024 My Website</p>
-    </div>
+ 
 
     
 </body>

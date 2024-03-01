@@ -33,23 +33,6 @@ body {
     transform: scale(1.1);
 }
 
-/* Style for the footer */
-.footer {
-    background-color: #3498db;
-    color: #fff;
-    padding: 1rem;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-}
-
-.footer p {
-    flex-basis: 100%;
-    margin-bottom: 0.5rem;
-    font-size: 0.8rem;
-}
 
 /* Float right for a logout box (if used) */
 
