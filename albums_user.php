@@ -42,11 +42,11 @@ while ($row = mysqli_fetch_assoc($result)) {
 
     <div class="grid grid-cols-1 md:grid-cols- lg:grid-cols-5 gap-4 mx-auto p-4">
     <?php foreach ($albums as $album) : ?>
-        <div class="overflow-hidden rounded-lg shadow-md bg-white flex flex-col transform hover:scale-105 transition duration-300 relative">
+        <div class="overflow-hidden rounded-lg shadow-md bg-white flex flex-col transform hover:scale-105 transition duration-300" style="width: 250px;">
             <a href="album_detail_user.php?album_id=<?php echo $album['album_id']; ?>">
-                <div class="p-4 flex-grow">
-                    <h4 class="text-xl font-semibold mb-2"><?php echo $album['title']; ?></h4>
-                    <p class="text-gray-600 mb-9"><?php echo $album['description']; ?></p>
+            <div class="p-4 flex-grow">
+                    <h4 class="text-lg font-semibold mb-2"><?php echo $album['title']; ?></h4>
+                    <p class="text-gray-600 mb-10"><?php echo $album['description']; ?></p>
                     <!-- Menampilkan deskripsi -->
                 </div>
             </a>

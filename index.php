@@ -89,14 +89,14 @@ $total_pages = ceil($count_data['total'] / $limit);
     <div class="search-container flex justify-center mt-4 mb-8">
         <form action="index.php" method="GET" class="flex items-center border border-gray-300 rounded-lg overflow-hidden">
             <input type="text" placeholder="Cari foto..." name="query" class="py-2 px-4 focus:outline-none" style="width: 300px;">
-            <button type="submit" class="bg-blue-500 text-white py-2 px-4 hover:bg-black-600 transition-colors duration-300">Cari</button>
+            <button type="submit" class="bg-blue-500 text-white py-2 px-4 hover:bg-black-600 transition-colors duration-300"><i class="fa-solid fa-magnifying-glass"></i></button>
         </form>
     </div>
 
     <div class="container mx-auto p-4">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4   ">
             <?php foreach ($photos as $photo) : ?>
-                <div class="post overflow-hidden rounded-lg shadow-md flex flex-col w-full transform hover:scale-105 transition duration-300">
+                <div class="post overflow-hidden rounded-lg shadow-md flex flex-col w-full transform hover:scale-105 transition duration-300  bg-white">
                     <a href="uploads/<?php echo $photo['image_path']; ?>" data-lightbox="gallery" data-title="<?php echo $photo['title']; ?>">
                         <img class="w-full h-40 object-cover mb-2" src="uploads/<?php echo $photo['image_path']; ?>" alt="<?php echo $photo['title']; ?>">
                     </a>

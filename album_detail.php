@@ -58,7 +58,7 @@ while ($row = mysqli_fetch_assoc($result_photos)) {
         <?php if ($photo['album_id'] == $album_id) : ?>
             <a href="uploads/<?php echo $photo['image_path']; ?>" data-lightbox="photos" data-title="<?php echo $photo['title']; ?>">
                 <div class="mb-4">
-                    <div class="overflow-hidden rounded-lg shadow-md hover:shadow-lg">
+                    <div class="overflow-hidden rounded-lg shadow-md hover:shadow-lg  bg-white">
                         <div class="bg-cover bg-center h-40" style="background-image: url('uploads/<?php echo $photo['image_path']; ?>');">
                         </div>
                         <div class="p-4">

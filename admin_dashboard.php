@@ -59,7 +59,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     <link rel="stylesheet" href="./css/fontawesome.min.css">
     <link rel="stylesheet" href="./css/all.min.css">
 </head>
-<body>
+<body class="bg-gray-100">
 
             <?php  include 'navbar_admin.php';  ?>
 
@@ -67,20 +67,20 @@ while ($row = mysqli_fetch_assoc($result)) {
     <div class="search-container flex justify-center mt-4 mb-8">
         <form action="admin_dashboard.php" method="GET" class="flex items-center border border-gray-300 rounded-lg overflow-hidden">
             <input type="text" placeholder="Cari foto..." name="query" class="py-2 px-4 focus:outline-none" style="width: 300px;">
-            <button type="submit" class="bg-blue-500 text-white py-2 px-4 hover:bg-blue-600 transition-colors duration-300">Cari</button>
+            <button type="submit" class="bg-blue-500 text-white py-2 px-4 hover:bg-blue-600 transition-colors duration-300"><i class="fa-solid fa-magnifying-glass"></i></button>
         </form>
     </div>
 
     <!-- Galeri Foto -->
-    <div class="container mx-auto p-8">
+    <div class="container mx-auto p-8 ">
         <h2 class="text-2xl font-bold mb-4">Gallery</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         <?php foreach ($photos as $photo) : ?>
             <div class="overflow-hidden rounded-lg shadow-md flex flex-col transform hover:scale-105 transition duration-300">
                 <a href="uploads/<?php echo $photo['image_path']; ?>" data-lightbox="gallery" data-title="<?php echo $photo['title']; ?>">
-                    <img class="w-full h-40 object-cover mb-2" src="uploads/<?php echo $photo['image_path']; ?>" alt="<?php echo $photo['title']; ?>">
+                    <img class="w-full h-40 object-cover" src="uploads/<?php echo $photo['image_path']; ?>" alt="<?php echo $photo['title']; ?>">
                 </a>
-                <div class="p-4 flex-grow">
+                <div class="p-4 flex-grow bg-white">
                     <h4 class="text-xl font-bold mb-2"><?php echo $photo['title']; ?></h4>
                     <p class="text-gray-600 mb-4"><?php echo $photo['description']; ?></p>
                     <p class="  font-semibold mb-2"> <?php echo $photo['user_name']; ?></p>

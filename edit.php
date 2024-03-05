@@ -82,14 +82,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body class="bg-gray-100">
 
 <!-- Form Edit Photo -->
-<div class="container mx-auto p-4 md:p-8 max-w-md">
-    <h2 class="text-2xl font-bold mb-4">Edit Photo</h2>
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?id=' . $photo_id; ?>" method="post" enctype="multipart/form-data" class="bg-white shadow-md rounded px-4 py-6 md:px-8 md:py-8">
-    <div class="mb-4">
+<div class="container mx-auto px-4 py-8 max-w-md">
+    <h2 class="text-2xl font-bold mb-4 text-center">Edit Photo</h2>
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?id=' . $photo_id; ?>" method="post" enctype="multipart/form-data" class="bg-white shadow-md rounded px-8 py-8">
+        <div class="mb-4">
             <label for="foto" class="block text-gray-700 font-medium">Pilih Foto:</label>
-            <input type="file" id="foto" name="foto" accept="image/*" required>
+            <input type="file" id="foto" name="foto" accept="image/*" required class="w-full p-2 border border-gray-300 rounded-md text-sm">
         </div>
-    <div class="mb-4">
+        <div class="mb-4">
             <label for="judul" class="block text-gray-700 text-sm font-bold mb-2">Judul:</label>
             <input type="text" id="judul" name="judul" value="<?php echo $row['title']; ?>" class="w-full p-2 border border-gray-300 rounded-md text-sm">
         </div>
@@ -97,7 +97,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label for="deskripsi" class="block text-gray-700 text-sm font-bold mb-2">Deskripsi:</label>
             <textarea id="deskripsi" name="deskripsi" rows="4" class="w-full p-2 border border-gray-300 rounded-md text-sm"><?php echo $row['description']; ?></textarea>
         </div>
-      
         <div class="flex items-center justify-between">
             <input type="submit" value="Simpan" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm">
         </div>

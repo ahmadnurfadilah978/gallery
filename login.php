@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username']) && isset(
             <input type="password" name="password" placeholder="Password" class="block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-400 focus:ring focus:ring-blue-400 focus:ring-opacity-50 mb-3 px-4 py-2" required />
             <input name="submit" type="submit" value="Login" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" />
         </form>
-        <p class="text-center mt-4">Belum Terdaftar? <a href='registration.php' class="text-blue-500">Daftar Disini</a></p>
+        <p class="text-center mt-4">Not registered? <a href='registration.php' class="text-blue-500">Register Here</a></p>
     </div>
 </body>
 </html>

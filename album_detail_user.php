@@ -50,13 +50,13 @@ while ($row = mysqli_fetch_assoc($result_photos)) {
 <?php  include 'navbar_user.php';  ?>
 
 
-<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-8">
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-8 ">
     <?php foreach ($photos as $photo) : ?>
         
         <?php if ($photo['album_id'] == $album_id) : ?>
             <a href="uploads/<?php echo $photo['image_path']; ?>" data-lightbox="photos" data-title="<?php echo $photo['title']; ?>">
                 <div class="mb-4">
-                    <div class="overflow-hidden rounded-lg shadow-md hover:shadow-lg">
+                    <div class="overflow-hidden rounded-lg shadow-md hover:shadow-lg  bg-white">
                         <div class="bg-cover bg-center h-40" style="background-image: url('uploads/<?php echo $photo['image_path']; ?>');">
                         </div>
                         <div class="p-4">
@@ -73,7 +73,7 @@ while ($row = mysqli_fetch_assoc($result_photos)) {
 </body>
 <script>
         function confirmLogout() {
-            if (confirm('Apakah Anda yakin ingin logout?')) {
+            if (confirm('Are you sure you want to log out?')) {
                 window.location.href = 'index.php';
             }
         }

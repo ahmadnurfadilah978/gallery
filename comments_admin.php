@@ -130,7 +130,7 @@ $photo_data = $result_photo->fetch_assoc();
                     <textarea name="comment_text" id="comment_text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="4" required></textarea>
                 </div>
                 <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Submit</button>
-                <a href="dashboard.php" class="cancel-button mb-4 font-bold text-blue-500 hover:text-blue-700 hover:underline">Cancel</a> 
+                <a href="admin_dashboard.php" class="cancel-button mb-4 font-bold text-blue-500 hover:text-blue-700 hover:underline">Cancel</a> 
                 <!-- Tautan untuk kembali ke dashboard -->
             </form>
         <?php endif; ?>

@@ -54,13 +54,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         /* Tambahkan CSS kustom di sini */
     </style>
 </head>
-<body>
+<body class="bg-gray-100">
 
     <!-- Navbar -->
     <?php  include 'navbar_admin.php';  ?>
 
 
-    <div class="container mx-auto p-8">
+    <div class="container mx-auto p-8 ">
         <h2 class="text-2xl font-bold mb-4">User List</h2>
 
         <!-- Form pencarian -->

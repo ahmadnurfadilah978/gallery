@@ -28,40 +28,44 @@ $row = mysqli_fetch_assoc($result_users);
     <title>Profile</title>
     <!-- Include Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-   
 </head>
 
 <body class="bg-gray-100">
 
-<?php include 'navbar_user.php'; ?>
+    <?php include 'navbar_user.php'; ?>
 
-<div class="container mx-auto mt-4 p-1 bg-white rounded-none text-center"> <!-- Mengubah nilai padding menjadi p-1, menghapus shadow-lg, dan menghilangkan rounded-lg -->
-    <h3 class="text-3xl font-semibold mb-4">Profil Pengguna</h3> <!-- Teks "Profil Pengguna" tetap di tengah -->
+    <div class="container mx-auto mt-8 px-4"> <!-- Add padding to the container -->
+        <div class="bg-white rounded-lg shadow-md p-8"> <!-- Add padding to the card -->
+            <h3 class="text-3xl font-semibold mb-4 text-center">Profil Pengguna</h3> <!-- Center align the heading -->
 
-    <?php if ($jumlah >= 1) : ?>
-        <div class="grid grid-cols-1 sm:grid-cols-1 gap-3 mx-auto"> <!-- Menjadikan kontainer di tengah dengan mx-auto -->
-            <div class="flex flex-col"> <!-- Menghapus kelas items-end dari div ini -->
-                <p class="text-lg font-semibold text-center">Username: <?php echo $row['username']; ?></p> <!-- Memposisikan teks Username ke tengah -->
-            </div>
+            <?php if ($jumlah >= 1) : ?>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4"> <!-- Adjust column layout and gap -->
+                    <div class="bg-gray-100 rounded-md p-4"> <!-- Add background color and padding -->
+                        <p class="text-lg font-semibold mb-2 text-center">Username   :</p> <!-- Add margin bottom -->
+                        <p class="text-base text-center"><?php echo $row['username']; ?></p> <!-- Center align text -->
+                    </div>
 
-            <div class="flex flex-col"> <!-- Menghapus kelas items-end dari div ini -->
-                <p class="text-lg font-semibold text-center">Nama:  <?php echo $row['name']; ?></p> <!-- Memposisikan teks Nama ke tengah -->
-            </div>
+                    <div class="bg-gray-100 rounded-md p-4"> <!-- Add background color and padding -->
+                        <p class="text-lg font-semibold mb-2 text-center">Nama   :</p> <!-- Add margin bottom -->
+                        <p class="text-base text-center"><?php echo $row['name']; ?></p> <!-- Center align text -->
+                    </div>
 
-            <div class="flex flex-col"> <!-- Menghapus kelas items-end dari div ini -->
-                <p class="text-lg font-semibold text-center">Email:  <?php echo $row['email']; ?></p> <!-- Memposisikan teks Email ke tengah -->
-            </div>
+                    <div class="bg-gray-100 rounded-md p-4"> <!-- Add background color and padding -->
+                        <p class="text-lg font-semibold mb-2 text-center">Email   :</p> <!-- Add margin bottom -->
+                        <p class="text-base text-center"><?php echo $row['email']; ?></p> <!-- Center align text -->
+                    </div>
+                </div>
 
-            <div class="flex justify-center">
-                <a href="edit_profile.php" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit Profil</a>
-            </div>
-            <!-- Add other profile information here -->
+                <div class="flex justify-center mt-8"> <!-- Center the button -->
+                    <a href="edit_profile.php" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit Profil</a>
+                </div>
+            <?php else : ?>
+                <p class="text-lg text-center mt-8">Profil tidak ditemukan.</p> <!-- Center align text -->
+            <?php endif; ?>
+
         </div>
-    <?php else : ?>
-        <p class="text-lg text-center">Profil tidak ditemukan.</p>
-    <?php endif; ?>
+    </div>
 
-</div>
 </body>
 
 </html>
