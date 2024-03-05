@@ -74,13 +74,15 @@ while ($row = mysqli_fetch_assoc($result)) {
                     <h4 class="text-xl font-bold mb-2"><?php echo $photo['title']; ?></h4>
                     <p class="text-gray-600 mb-4"><?php echo $photo['description']; ?></p>
                     <p class="  font-semibold mb-2"> <?php echo $photo['user_name']; ?></p>
+                    
                     <div class="flex flex-col sm:flex-row justify-between items-center">
                         <div class="flex justify-between w-full sm:w-auto mb-2 sm:mb-0">
                             <?php if ($photo['user_id'] === $user_id) : ?>
                                 <!-- Tampilkan tombol edit dan hapus hanya jika user_id pengguna sama dengan user_id yang mengunggah foto -->
                                 <a href="edit.php?id=<?php echo $photo['photo_id']; ?>" class="text-blue-500 hover:text-blue-700 mr-2" ><i class="fa-regular fa-pen-to-square"></i></a>
                                 <a href="delete.php?id=<?php echo $photo['photo_id']; ?>" onclick="return confirm('Are you sure you want to delete this photo?');" class="text-red-500 hover:text-red-700"><i class="fa-sharp fa-solid fa-trash"></i></a>
-                            <?php endif; ?>
+                            
+                                <?php endif; ?>
                         </div>
                         <div class="flex justify-between w-full sm:w-auto">
                             <?php

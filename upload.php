@@ -46,6 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Upload Foto</title>
     <!-- Tambahkan CSS Tailwind -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/fontawesome.min.css">
+    <link rel="stylesheet" href="./css/all.min.css">
     <style>
         /* Tambahkan gaya khusus di sini jika diperlukan */
     </style>
@@ -85,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </select>
             </div>
             <div class="flex justify-center">
-                <button type="submit" class="bg-indigo-500 text-white px-6 py-3 rounded-md hover:bg-indigo-600">Unggah</button>
+            <button type="submit" class="bg-indigo-500 text-white px-6 py-3 rounded-md hover:bg-indigo-600 transform transition duration-300 ease-in-out"><i class="fas fa-cloud-upload-alt mr-2"></i> Upload</button>
             </div>
         </form>
         <div class="mt-4 text-center">

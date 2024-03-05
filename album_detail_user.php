@@ -43,6 +43,8 @@ while ($row = mysqli_fetch_assoc($result_photos)) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!-- Add Lightbox2 JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+    <link rel="stylesheet" href="./css/fontawesome.min.css">
+    <link rel="stylesheet" href="./css/all.min.css">
     
 </head>
 <body class="bg-gray-100">
@@ -50,13 +52,13 @@ while ($row = mysqli_fetch_assoc($result_photos)) {
 <?php  include 'navbar_user.php';  ?>
 
 
-<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-8 ">
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-8">
     <?php foreach ($photos as $photo) : ?>
         
         <?php if ($photo['album_id'] == $album_id) : ?>
             <a href="uploads/<?php echo $photo['image_path']; ?>" data-lightbox="photos" data-title="<?php echo $photo['title']; ?>">
                 <div class="mb-4">
-                    <div class="overflow-hidden rounded-lg shadow-md hover:shadow-lg  bg-white">
+                    <div class="overflow-hidden rounded-lg shadow-md hover:shadow-lg bg-white" >
                         <div class="bg-cover bg-center h-40" style="background-image: url('uploads/<?php echo $photo['image_path']; ?>');">
                         </div>
                         <div class="p-4">
@@ -66,7 +68,8 @@ while ($row = mysqli_fetch_assoc($result_photos)) {
                     </div>
                 </div>
             </a>
-        <?php endif; ?>
+            <?php endif; ?>
+           
     <?php endforeach; ?>
 </div>
 
