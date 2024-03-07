@@ -23,7 +23,7 @@ if(isset($_GET['query'])) {
               LEFT JOIN albums ON photos.album_id = albums.album_id
               LEFT JOIN likes ON photos.photo_id = likes.photo_id
               LEFT JOIN comments ON photos.photo_id = comments.photo_id
-              WHERE (photos.title LIKE '%$search%' OR photos.description LIKE '%$search%') AND albums.access_level = 'public'
+              WHERE (photos.title LIKE '%$search%' OR photos.description LIKE '%$search%') AND photos.access_level = 'public'
               GROUP BY photos.photo_id
               ORDER BY photos.photo_id DESC
               LIMIT $start, $limit";
@@ -35,7 +35,7 @@ if(isset($_GET['query'])) {
               LEFT JOIN albums ON photos.album_id = albums.album_id
               LEFT JOIN likes ON photos.photo_id = likes.photo_id
               LEFT JOIN comments ON photos.photo_id = comments.photo_id
-              WHERE albums.access_level = 'public'
+              WHERE photos.access_level = 'public'
               GROUP BY photos.photo_id
               ORDER BY photos.photo_id DESC
               LIMIT $start, $limit";
@@ -51,9 +51,9 @@ while ($row = mysqli_fetch_assoc($result)) {
 // Hitung total jumlah data
 if(isset($_GET['query'])) {
     $search = mysqli_real_escape_string($conn, $_GET['query']);
-    $count_query = "SELECT COUNT(*) as total FROM photos INNER JOIN albums ON photos.album_id = albums.album_id WHERE (photos.title LIKE '%$search%' OR photos.description LIKE '%$search%') AND albums.access_level = 'public'";
+    $count_query = "SELECT COUNT(*) as total FROM photos WHERE (title LIKE '%$search%' OR description LIKE '%$search%') AND access_level = 'public'";
 } else {
-    $count_query = "SELECT COUNT(*) as total FROM photos INNER JOIN albums ON photos.album_id = albums.album_id WHERE albums.access_level = 'public'";
+    $count_query = "SELECT COUNT(*) as total FROM photos WHERE access_level = 'public'";
 }
 
 $count_result = mysqli_query($conn, $count_query);
