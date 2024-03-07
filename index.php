@@ -20,9 +20,10 @@ if(isset($_GET['query'])) {
     $query = "SELECT photos.*, users.name AS user_name, COUNT(likes.like_id) AS total_likes, COUNT(comments.comment_id) AS total_comments
               FROM photos
               LEFT JOIN users ON photos.user_id = users.user_id
+              LEFT JOIN albums ON photos.album_id = albums.album_id
               LEFT JOIN likes ON photos.photo_id = likes.photo_id
               LEFT JOIN comments ON photos.photo_id = comments.photo_id
-              WHERE photos.title LIKE '%$search%' OR photos.description LIKE '%$search%'
+              WHERE (photos.title LIKE '%$search%' OR photos.description LIKE '%$search%') AND albums.access_level = 'public'
               GROUP BY photos.photo_id
               ORDER BY photos.photo_id DESC
               LIMIT $start, $limit";
@@ -31,8 +32,10 @@ if(isset($_GET['query'])) {
     $query = "SELECT photos.*, users.name AS user_name, COUNT(likes.like_id) AS total_likes, COUNT(comments.comment_id) AS total_comments
               FROM photos
               LEFT JOIN users ON photos.user_id = users.user_id
+              LEFT JOIN albums ON photos.album_id = albums.album_id
               LEFT JOIN likes ON photos.photo_id = likes.photo_id
               LEFT JOIN comments ON photos.photo_id = comments.photo_id
+              WHERE albums.access_level = 'public'
               GROUP BY photos.photo_id
               ORDER BY photos.photo_id DESC
               LIMIT $start, $limit";
@@ -48,9 +51,9 @@ while ($row = mysqli_fetch_assoc($result)) {
 // Hitung total jumlah data
 if(isset($_GET['query'])) {
     $search = mysqli_real_escape_string($conn, $_GET['query']);
-    $count_query = "SELECT COUNT(*) as total FROM photos WHERE title LIKE '%$search%' OR description LIKE '%$search%'";
+    $count_query = "SELECT COUNT(*) as total FROM photos INNER JOIN albums ON photos.album_id = albums.album_id WHERE (photos.title LIKE '%$search%' OR photos.description LIKE '%$search%') AND albums.access_level = 'public'";
 } else {
-    $count_query = "SELECT COUNT(*) as total FROM photos";
+    $count_query = "SELECT COUNT(*) as total FROM photos INNER JOIN albums ON photos.album_id = albums.album_id WHERE albums.access_level = 'public'";
 }
 
 $count_result = mysqli_query($conn, $count_query);
@@ -120,32 +123,29 @@ $total_pages = ceil($count_data['total'] / $limit);
 
         <!-- Navigasi pagination -->
         <div class="pagination mt-9 mb-8">
-    <ul class="flex justify-center items-center">
-        <!-- Tombol Halaman Sebelumnya -->
-        <?php if ($current_page > 1) : ?>
-            <li class="mr-2">
-                <a href="?page=<?php echo $current_page - 1; ?>&query=<?php echo isset($_GET['query']) ? $_GET['query'] : ''; ?>" class="text-white px-4 py-2 rounded-md bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-600 hover:to-blue-800 transition-colors duration-300">Previous</a>
-            </li>
-        <?php endif; ?>
+            <ul class="flex justify-center items-center">
+                <!-- Tombol Halaman Sebelumnya -->
+                <?php if ($current_page > 1) : ?>
+                    <li class="mr-2">
+                        <a href="?page=<?php echo $current_page - 1; ?>&query=<?php echo isset($_GET['query']) ? $_GET['query'] : ''; ?>" class="text-white px-4 py-2 rounded-md bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-600 hover:to-blue-800 transition-colors duration-300">Previous</a>
+                    </li>
+                <?php endif; ?>
 
-        <!-- Tautan ke setiap halaman -->
-        <?php for ($i = 1; $i <= $total_pages; $i++) : ?>
-            <li class="mx-1">
-                <a href="?page=<?php echo $i; ?>&query=<?php echo isset($_GET['query']) ? $_GET['query'] : ''; ?>" class="<?php echo ($current_page == $i) ? 'font-bold text-blue-600' : 'text-gray-600 hover:text-blue-600'; ?> px-4 py-2 rounded-md hover:bg-blue-100 transition-colors duration-300"><?php echo $i; ?></a>
-            </li>
-        <?php endfor; ?>
+                <!-- Tautan ke setiap halaman -->
+                <?php for ($i = 1; $i <= $total_pages; $i++) : ?>
+                    <li class="mx-1">
+                        <a href="?page=<?php echo $i; ?>&query=<?php echo isset($_GET['query']) ? $_GET['query'] : ''; ?>" class="<?php echo ($current_page == $i) ? 'font-bold text-blue-600' : 'text-gray-600 hover:text-blue-600'; ?> px-4 py-2 rounded-md hover:bg-blue-100 transition-colors duration-300"><?php echo $i; ?></a>
+                    </li>
+                <?php endfor; ?>
 
-        <!-- Tombol Halaman Berikutnya -->
-        <?php if ($current_page < $total_pages) : ?>
-            <li class="ml-2">
-                <a href="?page=<?php echo $current_page + 1; ?>&query=<?php echo isset($_GET['query']) ? $_GET['query'] : ''; ?>" class="text-white px-4 py-2 rounded-md bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-600 hover:to-blue-800 transition-colors duration-300">Next</a>
-            </li>
-        <?php endif; ?>
-    </ul>
-</div>
-
- 
-
-    
+                <!-- Tombol Halaman Berikutnya -->
+                <?php if ($current_page < $total_pages) : ?>
+                    <li class="ml-2">
+                        <a href="?page=<?php echo $current_page + 1; ?>&query=<?php echo isset($_GET['query']) ? $_GET['query'] : ''; ?>" class="text-white px-4 py-2 rounded-md bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-600 hover:to-blue-800 transition-colors duration-300">Next</a>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        </div>
+    </div>
 </body>
 </html>
