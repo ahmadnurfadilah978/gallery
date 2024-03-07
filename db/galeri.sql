@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 06 Mar 2024 pada 00.52
+-- Waktu pembuatan: 07 Mar 2024 pada 03.37
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.2.4
 
@@ -32,18 +32,26 @@ CREATE TABLE `albums` (
   `user_id` int(11) NOT NULL,
   `title` varchar(100) NOT NULL,
   `description` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `access_level` enum('public','private') NOT NULL DEFAULT 'public'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `albums`
 --
 
-INSERT INTO `albums` (`album_id`, `user_id`, `title`, `description`, `created_at`) VALUES
-(27, 30, 'ssss', 'ss', '2024-02-23 01:04:14'),
-(28, 32, 'dd', 'dd', '2024-02-23 01:28:05'),
-(30, 31, 'ujikom ', 'ujikom ', '2024-02-28 01:04:19'),
-(31, 34, 'ujikom 2', 'anjay ', '2024-02-28 01:11:51');
+INSERT INTO `albums` (`album_id`, `user_id`, `title`, `description`, `created_at`, `access_level`) VALUES
+(27, 30, 'ssss', 'ss', '2024-02-23 01:04:14', 'public'),
+(28, 32, 'dd', 'dd', '2024-02-23 01:28:05', 'public'),
+(30, 31, 'ujikom ', 'ujikom ', '2024-03-06 07:23:58', 'public'),
+(31, 34, 'ujikom', 'kerjaa', '2024-03-06 07:56:57', 'public'),
+(35, 31, 'tes ujikom', 'tesoo', '2024-03-07 02:35:50', 'public'),
+(36, 34, 'h ujikom ', 'ngetes ujikm ', '2024-03-06 07:49:36', 'public'),
+(37, 36, 'tes', 'tes tes ', '2024-03-06 02:46:52', 'public'),
+(40, 34, 'album ujikom ', 'memories', '2024-03-07 00:36:40', 'public'),
+(41, 36, 'tes ujikom ', 'ujikom ', '2024-03-07 02:29:59', 'public'),
+(42, 36, 'ujian', 'ujian tuhan', '2024-03-07 02:30:12', 'public'),
+(43, 31, 'ujian tuhan ', 'lulus', '2024-03-07 02:36:02', 'public');
 
 -- --------------------------------------------------------
 
@@ -75,11 +83,11 @@ INSERT INTO `comments` (`comment_id`, `user_id`, `photo_id`, `comment_text`, `cr
 (33, 20, 36, 'ggg', '2024-02-20 01:53:56'),
 (36, 17, 29, 'tes cuy\r\n', '2024-02-20 07:10:00'),
 (40, 34, 57, 'wiiiih', '2024-02-28 02:43:18'),
-(41, 34, 65, 'aa', '2024-02-28 03:48:16'),
 (42, 34, 60, 'b', '2024-02-28 03:54:54'),
-(44, 34, 63, 'anjay', '2024-02-28 04:19:48'),
-(45, 34, 65, 'anjay ', '2024-02-28 04:35:21'),
-(46, 31, 65, 'wiidih', '2024-02-28 04:37:30');
+(46, 31, 65, 'wiidih', '2024-02-28 04:37:30'),
+(52, 34, 66, 'kewren', '2024-03-06 00:15:34'),
+(53, 31, 66, 'sangat indah \r\n', '2024-03-06 01:05:36'),
+(54, 31, 67, 'waa\r\n', '2024-03-06 01:11:52');
 
 -- --------------------------------------------------------
 
@@ -117,7 +125,13 @@ INSERT INTO `likes` (`like_id`, `user_id`, `photo_id`, `created_at`) VALUES
 (25, 17, 27, '2024-02-16 01:13:18'),
 (33, 20, 29, '2024-02-20 02:30:04'),
 (39, 34, 66, '2024-03-04 02:18:10'),
-(40, 31, 65, '2024-03-05 01:01:13');
+(40, 31, 65, '2024-03-05 01:01:13'),
+(41, 34, 68, '2024-03-06 01:02:56'),
+(42, 31, 66, '2024-03-06 01:05:49'),
+(43, 31, 67, '2024-03-06 01:05:51'),
+(44, 31, 68, '2024-03-06 02:05:18'),
+(45, 31, 72, '2024-03-06 03:32:25'),
+(51, 34, 78, '2024-03-06 08:02:42');
 
 -- --------------------------------------------------------
 
@@ -140,18 +154,15 @@ CREATE TABLE `photos` (
 --
 
 INSERT INTO `photos` (`photo_id`, `user_id`, `album_id`, `title`, `description`, `image_path`, `created_at`) VALUES
-(57, 34, 31, 'ujikooomoooo', 'mobil ', 'th (3).jpeg', '2024-03-05 03:31:40'),
-(58, 34, 31, 'tugasssssss', 'ujikom', 'high-resolution-nature-landscape-l.jpg', '2024-03-05 03:29:45'),
-(59, 34, 31, 'lahgfd', 'lpi98ytydfxgcvbjkl;l', '74906.jpg', '2024-02-27 17:00:00'),
-(60, 34, 31, 'lkihgyffgc', 'l;oyrdsedyhjbnvcfxdhyhn', 'th (2).jpeg', '2024-02-27 17:00:00'),
-(61, 34, 31, ' hvajdgfd', 'fdsawerdfcvb', 'legion-dt-1920x1080.jpg', '2024-02-27 17:00:00'),
-(62, 34, 31, 'jhuytfdcgv', 'sdgfhbsndfkj', 'th (3).jpeg', '2024-02-27 17:00:00'),
-(63, 34, 31, 'njbhvgcgfytfg', 'mjkhuytfghbnvgfv', 'W4A2827-1-3000x2000.jpg', '2024-02-27 17:00:00'),
-(64, 34, 31, 'bhdjyfadjdgh', 'nhuhbgtrfdcx', 'legion-dt-1920x1080.jpg', '2024-02-27 17:00:00'),
-(65, 34, 31, 'asdc', 'bgvfdcvbn', 'th (1).jpeg', '2024-02-27 17:00:00'),
-(66, 34, 31, 'ujikkom', 'bhuiokbn', 'iStock-483771218-min.jpg', '2024-03-05 03:27:50'),
-(67, 31, 30, 'mycar', 'kewren', 'th (2).jpeg', '2024-03-04 01:07:54'),
-(68, 31, 30, 'pemandangan', 'sangat indah ', 'W4A2827-1-3000x2000.jpg', '2024-03-04 17:00:00');
+(93, 34, 31, 'pegunungan', 'indah sekaaaliii', '74906.jpg', '2024-03-06 17:00:00'),
+(94, 34, 36, 'MyCar', 'keren nyooo', 'th (2).jpeg', '2024-03-06 17:00:00'),
+(95, 34, 40, 'Walpaper', 'Bagus untuk laptop', 'legion-dt-1920x1080.jpg', '2024-03-06 17:00:00'),
+(96, 36, 37, 'Harimau', 'Sangat bagus animasi harimau nya ', 'th (1).jpeg', '2024-03-06 17:00:00'),
+(97, 36, 41, 'Pemandangan Malam', 'Sejuk sekali saat malam ', 'th (3).jpeg', '2024-03-06 17:00:00'),
+(99, 36, 42, 'Danau', 'Indah sekali danau nya', 'iStock-483771218-min.jpg', '2024-03-06 17:00:00'),
+(100, 31, 30, 'Danau Dan Perahu', 'Bagus nyooooo', 'landscape-photography-tom-archer-6.jpg', '2024-03-06 17:00:00'),
+(101, 31, 35, 'Walpaper', 'Bagus untuk laptop anda', 'Ym4Wlf.webp', '2024-03-06 17:00:00'),
+(102, 31, 43, 'Pemandangan', 'Gatau bagus banget', 'th.jpeg', '2024-03-06 17:00:00');
 
 -- --------------------------------------------------------
 
@@ -176,7 +187,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`user_id`, `name`, `password`, `username`, `email`, `created_at`, `access_level`) VALUES
 (31, 'admin', 'e3274be5c857fb42ab72d786e281b4b8', 'admin', 'admin@gmail.com', '2024-02-23 01:01:05', 'admin'),
 (34, 'ahmad', '202cb962ac59075b964b07152d234b70', 'madd', 'ahmad@gmail.com', '2024-03-04 01:21:07', 'user'),
-(36, 'dimas', '202cb962ac59075b964b07152d234b70', 'dim', 'dim@gmail.com', '2024-03-01 01:15:10', 'user');
+(36, 'dimas', '202cb962ac59075b964b07152d234b70', 'dim', 'dim@gmail.com', '2024-03-01 01:15:10', 'user'),
+(37, 'Fauzy Abdilah', '6172de70289f996b192e1b2f5a932ace', 'fauzy', 'fauzy@gmail.com', '2024-03-06 03:17:54', 'user');
 
 --
 -- Indexes for dumped tables
@@ -225,31 +237,31 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `albums`
 --
 ALTER TABLE `albums`
-  MODIFY `album_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `album_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT untuk tabel `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT untuk tabel `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `like_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `like_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT untuk tabel `photos`
 --
 ALTER TABLE `photos`
-  MODIFY `photo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `photo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
