@@ -24,9 +24,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $upload_dir = 'uploads/';
     $foto_path = $upload_dir . $foto_name;
 
-    // Save photo information to the database (without access_level)
-    $query = "INSERT INTO photos (user_id, album_id, title, description, image_path, created_at) 
-              VALUES ('$userid', '$album_id', '$judul', '$deskripsifoto', '$foto_name', '$created_at')";
+    // Save photo information to the database
+    $access_level = $_POST['access_level']; // Mendapatkan nilai akses dari form
+    $query = "INSERT INTO photos (user_id, album_id, title, description, image_path, created_at, access_level) 
+              VALUES ('$userid', '$album_id', '$judul', '$deskripsifoto', '$foto_name', '$created_at', '$access_level')";
     mysqli_query($conn, $query);
 
     // Move the uploaded file to the specified directory
@@ -85,9 +86,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ?>
                 </select>
             </div>
-            <!-- Hapus elemen yang terkait dengan akses foto -->
-            <!-- Hapus elemen select dan label -->
-            <!-- Hapus pemrosesan akses_level di PHP -->
+            <div class="mb-4">
+                <label for="access_level" class="block text-gray-700 font-medium">Akses Foto:</label>
+                <select id="access_level" name="access_level" class="form-select w-full mt-1 px-4 py-2 border rounded-md focus:outline-none focus:border-indigo-500" required>
+                    <option value="public">Public</option>
+                    <option value="private">Private</option>
+                </select>
+            </div>
             <div class="flex justify-center">
                 <button type="submit" class="bg-indigo-500 text-white px-6 py-3 rounded-md hover:bg-indigo-600 transform transition duration-300 ease-in-out"><i class="fas fa-cloud-upload-alt mr-2"></i> Upload</button>
             </div>

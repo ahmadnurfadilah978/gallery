@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 07 Mar 2024 pada 03.37
+-- Waktu pembuatan: 07 Mar 2024 pada 06.03
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.2.4
 
@@ -46,9 +46,9 @@ INSERT INTO `albums` (`album_id`, `user_id`, `title`, `description`, `created_at
 (30, 31, 'ujikom ', 'ujikom ', '2024-03-06 07:23:58', 'public'),
 (31, 34, 'ujikom', 'kerjaa', '2024-03-06 07:56:57', 'public'),
 (35, 31, 'tes ujikom', 'tesoo', '2024-03-07 02:35:50', 'public'),
-(36, 34, 'h ujikom ', 'ngetes ujikm ', '2024-03-06 07:49:36', 'public'),
+(36, 34, 'h ujikom ', 'ngetes ujikm ', '2024-03-07 04:19:50', 'public'),
 (37, 36, 'tes', 'tes tes ', '2024-03-06 02:46:52', 'public'),
-(40, 34, 'album ujikom ', 'memories', '2024-03-07 00:36:40', 'public'),
+(40, 34, 'album ujikom ', 'memories', '2024-03-07 04:08:44', 'public'),
 (41, 36, 'tes ujikom ', 'ujikom ', '2024-03-07 02:29:59', 'public'),
 (42, 36, 'ujian', 'ujian tuhan', '2024-03-07 02:30:12', 'public'),
 (43, 31, 'ujian tuhan ', 'lulus', '2024-03-07 02:36:02', 'public');
@@ -146,23 +146,26 @@ CREATE TABLE `photos` (
   `title` varchar(100) NOT NULL,
   `description` text NOT NULL,
   `image_path` varchar(255) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `access_level` enum('public','private') NOT NULL DEFAULT 'public'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `photos`
 --
 
-INSERT INTO `photos` (`photo_id`, `user_id`, `album_id`, `title`, `description`, `image_path`, `created_at`) VALUES
-(93, 34, 31, 'pegunungan', 'indah sekaaaliii', '74906.jpg', '2024-03-06 17:00:00'),
-(94, 34, 36, 'MyCar', 'keren nyooo', 'th (2).jpeg', '2024-03-06 17:00:00'),
-(95, 34, 40, 'Walpaper', 'Bagus untuk laptop', 'legion-dt-1920x1080.jpg', '2024-03-06 17:00:00'),
-(96, 36, 37, 'Harimau', 'Sangat bagus animasi harimau nya ', 'th (1).jpeg', '2024-03-06 17:00:00'),
-(97, 36, 41, 'Pemandangan Malam', 'Sejuk sekali saat malam ', 'th (3).jpeg', '2024-03-06 17:00:00'),
-(99, 36, 42, 'Danau', 'Indah sekali danau nya', 'iStock-483771218-min.jpg', '2024-03-06 17:00:00'),
-(100, 31, 30, 'Danau Dan Perahu', 'Bagus nyooooo', 'landscape-photography-tom-archer-6.jpg', '2024-03-06 17:00:00'),
-(101, 31, 35, 'Walpaper', 'Bagus untuk laptop anda', 'Ym4Wlf.webp', '2024-03-06 17:00:00'),
-(102, 31, 43, 'Pemandangan', 'Gatau bagus banget', 'th.jpeg', '2024-03-06 17:00:00');
+INSERT INTO `photos` (`photo_id`, `user_id`, `album_id`, `title`, `description`, `image_path`, `created_at`, `access_level`) VALUES
+(93, 34, 31, 'pegunungan', 'indah sekaaaliii', '74906.jpg', '2024-03-06 17:00:00', 'public'),
+(94, 34, 36, 'MyCar', 'keren nyooo', 'th (2).jpeg', '2024-03-06 17:00:00', 'public'),
+(95, 34, 40, 'Walpaper', 'Bagus untuk laptop', 'legion-dt-1920x1080.jpg', '2024-03-06 17:00:00', 'public'),
+(96, 36, 37, 'Harimau', 'Sangat bagus animasi harimau nya ', 'th (1).jpeg', '2024-03-06 17:00:00', 'public'),
+(97, 36, 41, 'Pemandangan Malam', 'Sejuk sekali saat malam ', 'th (3).jpeg', '2024-03-06 17:00:00', 'public'),
+(99, 36, 42, 'Danau', 'Indah sekali danau nya', 'iStock-483771218-min.jpg', '2024-03-06 17:00:00', 'public'),
+(100, 31, 30, 'Danau Dan Perahu', 'Bagus nyooooo', 'landscape-photography-tom-archer-6.jpg', '2024-03-06 17:00:00', 'public'),
+(101, 31, 35, 'Walpaper', 'Bagus untuk laptop anda', 'Ym4Wlf.webp', '2024-03-06 17:00:00', 'public'),
+(102, 31, 43, 'Pemandangan', 'Gatau bagus banget', 'th.jpeg', '2024-03-06 17:00:00', 'public'),
+(104, 36, 37, 'moooobbbiil', 'meren', 'th (2).jpeg', '2024-03-06 17:00:00', 'private'),
+(107, 31, 30, 'harimauuuuuu', 'hehehhe', 'th (1).jpeg', '2024-03-06 17:00:00', 'private');
 
 -- --------------------------------------------------------
 
@@ -255,7 +258,7 @@ ALTER TABLE `likes`
 -- AUTO_INCREMENT untuk tabel `photos`
 --
 ALTER TABLE `photos`
-  MODIFY `photo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
+  MODIFY `photo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`

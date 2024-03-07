@@ -1,41 +1,34 @@
 <?php
 require_once('koneksi.php');
 session_start();
+$user_id = $_SESSION['userid'];
 
-// Periksa apakah pengguna sudah login dan memiliki akses admin
-if (!isset($_SESSION['username']) || $_SESSION['access_level'] !== 'admin') {
+// Periksa apakah pengguna sudah login
+if (!isset($_SESSION['username'])) {
     header("Location: login.php");
     exit();
 }
 
-// Mendapatkan ID pengguna yang sedang login
-$user_id = $_SESSION['userid'];
-
-// Mendapatkan daftar foto dari database, atau hasil pencarian jika ada
-$query = "SELECT photos.*, users.name AS user_name FROM photos
-          LEFT JOIN users ON photos.user_id = users.user_id
-          LEFT JOIN albums ON photos.album_id = albums.album_id
-          WHERE albums.access_level = 'public'";
-
-// Jika ada permintaan pencarian, sesuaikan kueri untuk mencocokkan hasil pencarian
-if(isset($_GET['query']) && !empty($_GET['query'])){
+// Mendapatkan daftar foto dari database
+if (isset($_GET['query']) && !empty($_GET['query'])) {
     $search_query = $_GET['query'];
-    $query .= " AND (photos.title LIKE '%$search_query%' OR photos.description LIKE '%$search_query%')";
+    $query = "SELECT photos.*, users.name AS user_name FROM photos
+              LEFT JOIN users ON photos.user_id = users.user_id
+              WHERE (photos.title LIKE '%$search_query%' OR photos.description LIKE '%$search_query%') AND (photos.access_level = 'public' OR photos.user_id = $user_id)";
+} else {
+    $query = "SELECT photos.*, users.name AS user_name FROM photos
+              LEFT JOIN users ON photos.user_id = users.user_id
+              WHERE photos.access_level = 'public' OR photos.user_id = $user_id";
 }
 
-// Tambahkan pengurutan secara menurun berdasarkan ID foto
-$query .= " ORDER BY photos.photo_id DESC";
-
-$result = mysqli_query($conn, $query);
-
-// Pagination
 $limit = 8;
-$total_records = mysqli_num_rows($result);
-$total_pages = ceil($total_records / $limit);
 $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
 $start = ($current_page - 1) * $limit;
 
-$query .= " LIMIT $start, $limit";
+$total_records = mysqli_num_rows(mysqli_query($conn, $query));
+$total_pages = ceil($total_records / $limit);
+
+$query .= " ORDER BY photos.photo_id DESC LIMIT $start, $limit";
 
 $result = mysqli_query($conn, $query);
 
