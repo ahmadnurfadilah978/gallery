@@ -67,13 +67,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body class="bg-gray-100">
 
-    <div class="navbar">
-        <h2>Selamat Datang, <?php echo $_SESSION['username']; ?>!</h2>
-        <a href="dashboard.php">Home</a>
-        <a href="profile.php">Profile</a>
-        <a href="albums_user.php">Lihat Album</a>
-        <a href="index.php">Logout</a>
-    </div>
+<?php  include 'navbar_user.php';  ?>
+
 
     <div class="container mx-auto mt-8">
         <div class="max-w-md mx-auto bg-white rounded-md overflow-hidden shadow-md p-8">

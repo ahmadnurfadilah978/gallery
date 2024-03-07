@@ -2,6 +2,7 @@
 require_once('koneksi.php');
 session_start();
 $user_id = $_SESSION['userid'];
+
 // Periksa apakah pengguna sudah login
 if (!isset($_SESSION['username'])) {
     header("Location: login.php");
@@ -9,14 +10,17 @@ if (!isset($_SESSION['username'])) {
 }
 
 // Mendapatkan daftar foto dari database
-if(isset($_GET['query']) && !empty($_GET['query'])) {
+if (isset($_GET['query']) && !empty($_GET['query'])) {
     $search_query = $_GET['query'];
     $query = "SELECT photos.*, users.name AS user_name FROM photos
               LEFT JOIN users ON photos.user_id = users.user_id
-              WHERE photos.title LIKE '%$search_query%' OR photos.description LIKE '%$search_query%'";
+              LEFT JOIN albums ON photos.album_id = albums.album_id
+              WHERE (photos.title LIKE '%$search_query%' OR photos.description LIKE '%$search_query%') AND albums.access_level = 'public'";
 } else {
     $query = "SELECT photos.*, users.name AS user_name FROM photos
-              LEFT JOIN users ON photos.user_id = users.user_id";
+              LEFT JOIN users ON photos.user_id = users.user_id
+              LEFT JOIN albums ON photos.album_id = albums.album_id
+              WHERE albums.access_level = 'public'";
 }
 
 $limit = 8;
@@ -53,7 +57,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 </head>
 
 <body class="bg-gray-100">
-<?php  include 'navbar_user.php';  ?>
+<?php include 'navbar_user.php'; ?>
 
 
     <!-- Form pencarian -->
@@ -141,9 +145,5 @@ while ($row = mysqli_fetch_assoc($result)) {
         <?php endif; ?>
     </ul>
 </div>
-
-
-
-
 </body>
 </html>

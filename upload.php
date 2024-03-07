@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $judul = $_POST['judul'];
     $deskripsifoto = $_POST['deskripsifoto'];
     $album_id = $_POST['albumid']; // Mendapatkan ID album dari form
+    $access_level = $_POST['access_level']; // Mendapatkan tingkat akses dari form
     $created_at = date("Y-m-d");
     $userid = $_SESSION['userid'];
 
@@ -25,8 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $foto_path = $upload_dir . $foto_name;
 
     // Save photo information to the database
-    $query = "INSERT INTO photos (user_id, album_id, title, description, image_path, created_at) 
-              VALUES ('$userid', '$album_id', '$judul', '$deskripsifoto', '$foto_name', '$created_at')";
+    $query = "INSERT INTO photos (user_id, album_id, title, description, image_path, created_at, access_level) 
+              VALUES ('$userid', '$album_id', '$judul', '$deskripsifoto', '$foto_name', '$created_at', '$access_level')";
     mysqli_query($conn, $query);
 
     // Move the uploaded file to the specified directory
@@ -34,6 +35,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     header('Location: dashboard.php');
     exit();
+}
+
+// Mendapatkan daftar foto dari database dengan memperhitungkan tingkat akses 'public'
+$query = "SELECT photos.*, users.name AS user_name 
+          FROM photos
+          LEFT JOIN users ON photos.user_id = users.user_id
+          LEFT JOIN albums ON photos.album_id = albums.album_id
+          WHERE albums.access_level = 'public'";
+
+$result = mysqli_query($conn, $query);
+
+$photos = [];
+while ($row = mysqli_fetch_assoc($result)) {
+    $photos[] = $row;
 }
 ?>
 
@@ -57,15 +72,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="container mx-auto px-4 py-8">
         <h2 class="text-3xl font-semibold mb-8 text-center">Upload Foto</h2>
         <form action="" method="post" enctype="multipart/form-data" class="max-w-md mx-auto bg-white rounded-md overflow-hidden shadow-md p-6">
-        <div class="mb-4">
+            <div class="mb-4">
                 <label for="foto" class="block text-gray-700 font-medium">Pilih Foto:</label>
                 <input type="file" id="foto" name="foto" accept="image/*" required>
-            </div>    
-        <div class="mb-4">
+            </div>
+            <div class="mb-4">
                 <label for="judul" class="block text-gray-700 font-medium">Judul:</label>
                 <input type="text" id="judul" name="judul" class="form-input w-full mt-1 px-4 py-2 border rounded-md focus:outline-none focus:border-indigo-500" required>
             </div>
-           
             <div class="mb-4">
                 <label for="deskripsifoto" class="block text-gray-700 font-medium">Deskripsi:</label>
                 <textarea id="deskripsifoto" name="deskripsifoto" class="form-textarea w-full mt-1 px-4 py-2 border rounded-md focus:outline-none focus:border-indigo-500" required></textarea>
@@ -86,12 +100,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ?>
                 </select>
             </div>
+            <div class="mb-4">
+                <label for="access_level" class="block text-gray-700 font-medium">Tingkat Akses:</label>
+                <select id="access_level" name="access_level" class="form-select w-full mt-1 px-4 py-2 border rounded-md focus:outline-none focus:border-indigo-500" required>
+                    <option value="public">Public</option>
+                    <option value="private">Private</option>
+                </select>
+            </div>
             <div class="flex justify-center">
-            <button type="submit" class="bg-indigo-500 text-white px-6 py-3 rounded-md hover:bg-indigo-600 transform transition duration-300 ease-in-out"><i class="fas fa-cloud-upload-alt mr-2"></i> Upload</button>
+                <button type="submit" class="bg-indigo-500 text-white px-6 py-3 rounded-md hover:bg-indigo-600 transform transition duration-300 ease-in-out"><i class="fas fa-cloud-upload-alt mr-2"></i> Upload</button>
             </div>
         </form>
         <div class="mt-4 text-center">
             <a href="dashboard.php" class="text-indigo-500 hover:underline">Kembali ke Beranda</a>
+        </div>
+    </div>
+
+    <!-- Tampilkan daftar foto yang memiliki tingkat akses 'public' -->
+    <div class="container mx-auto px-4 py-8">
+        <h2 class="text-3xl font-semibold mb-8 text-center">Foto Publik</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <?php foreach ($photos as $photo) : ?>
+                <div class="overflow-hidden rounded-lg shadow-md flex flex-col transform hover:scale-105 transition duration-300">
+                    <!-- Konten foto -->
+                    <!-- ... -->
+                </div>
+            <?php endforeach; ?>
         </div>
     </div>
 </body>

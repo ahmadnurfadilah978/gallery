@@ -13,12 +13,14 @@ $user_id = $_SESSION['userid'];
 
 // Mendapatkan daftar foto dari database, atau hasil pencarian jika ada
 $query = "SELECT photos.*, users.name AS user_name FROM photos
-          LEFT JOIN users ON photos.user_id = users.user_id";
+          LEFT JOIN users ON photos.user_id = users.user_id
+          LEFT JOIN albums ON photos.album_id = albums.album_id
+          WHERE albums.access_level = 'public'";
 
 // Jika ada permintaan pencarian, sesuaikan kueri untuk mencocokkan hasil pencarian
 if(isset($_GET['query']) && !empty($_GET['query'])){
     $search_query = $_GET['query'];
-    $query .= " WHERE photos.title LIKE '%$search_query%' OR photos.description LIKE '%$search_query%'";
+    $query .= " AND (photos.title LIKE '%$search_query%' OR photos.description LIKE '%$search_query%')";
 }
 
 // Tambahkan pengurutan secara menurun berdasarkan ID foto
@@ -61,7 +63,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 </head>
 <body class="bg-gray-100">
 
-            <?php  include 'navbar_admin.php';  ?>
+    <?php  include 'navbar_admin.php';  ?>
 
     <!-- Form for search -->
     <div class="search-container flex justify-center mt-4 mb-8">

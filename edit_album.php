@@ -36,9 +36,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Ambil data yang dikirim dari form
     $title = $_POST['title'];
     $description = $_POST['description'];
+    $access_level = $_POST['access_level'];
 
     // Update data album ke database
-    $update_query = "UPDATE albums SET title = '$title', description = '$description' WHERE album_id = $album_id";
+    $update_query = "UPDATE albums SET title = '$title', description = '$description', access_level = '$access_level' WHERE album_id = $album_id";
     $update_result = mysqli_query($conn, $update_query);
 
     // Periksa apakah query berhasil dieksekusi
@@ -74,6 +75,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="mb-4">
                 <label for="description" class="block text-gray-700 font-semibold mb-2">Description:</label>
                 <textarea id="description" name="description" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:border-blue-500"><?php echo $album['description']; ?></textarea>
+            </div>
+            <div class="mb-4">
+                <label for="access_level" class="block text-gray-700 font-semibold mb-2">Access Level:</label>
+                <select id="access_level" name="access_level" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:border-blue-500">
+                    <option value="public" <?php if ($album['access_level'] == 'public') echo 'selected'; ?>>Public</option>
+                    <option value="private" <?php if ($album['access_level'] == 'private') echo 'selected'; ?>>Private</option>
+                </select>
             </div>
             <div class="mb-4">
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Update</button>
