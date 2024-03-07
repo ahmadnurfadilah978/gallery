@@ -14,6 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $album_id = $_POST['albumid']; // Mendapatkan ID album dari form
     $created_at = date("Y-m-d");
     $userid = $_SESSION['userid'];
+    $access_level = $_POST['access_level']; // Mendapatkan akses level dari form
 
     // Handling file upload
     $foto = $_FILES['foto'];
@@ -25,8 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $foto_path = $upload_dir . $foto_name;
 
     // Save photo information to the database
-    $query = "INSERT INTO photos (user_id, album_id, title, description, image_path, created_at) 
-              VALUES ('$userid', '$album_id', '$judul', '$deskripsifoto', '$foto_name', '$created_at')";
+    $query = "INSERT INTO photos (user_id, album_id, title, description, image_path, created_at, access_level) 
+              VALUES ('$userid', '$album_id', '$judul', '$deskripsifoto', '$foto_name', '$created_at', '$access_level')";
     mysqli_query($conn, $query);
 
     // Move the uploaded file to the specified directory
@@ -34,20 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     header('Location: dashboard.php');
     exit();
-}
-
-// Mendapatkan daftar foto dari database dengan memperhitungkan tingkat akses 'public'
-$query = "SELECT photos.*, users.name AS user_name 
-          FROM photos
-          LEFT JOIN users ON photos.user_id = users.user_id
-          LEFT JOIN albums ON photos.album_id = albums.album_id
-          WHERE albums.access_level = 'public'";
-
-$result = mysqli_query($conn, $query);
-
-$photos = [];
-while ($row = mysqli_fetch_assoc($result)) {
-    $photos[] = $row;
 }
 ?>
 
@@ -97,6 +84,13 @@ while ($row = mysqli_fetch_assoc($result)) {
                         echo "<option value=\"" . $row['album_id'] . "\">" . $row['title'] . "</option>";
                     }
                     ?>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label for="access_level" class="block text-gray-700 font-medium">Akses Level:</label>
+                <select id="access_level" name="access_level" class="form-select w-full mt-1 px-4 py-2 border rounded-md focus:outline-none focus:border-indigo-500" required>
+                    <option value="public">Public</option>
+                    <option value="private">Private</option>
                 </select>
             </div>
             <div class="flex justify-center">

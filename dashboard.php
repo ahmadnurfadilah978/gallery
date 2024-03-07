@@ -14,13 +14,11 @@ if (isset($_GET['query']) && !empty($_GET['query'])) {
     $search_query = $_GET['query'];
     $query = "SELECT photos.*, users.name AS user_name FROM photos
               LEFT JOIN users ON photos.user_id = users.user_id
-              LEFT JOIN albums ON photos.album_id = albums.album_id
-              WHERE (photos.title LIKE '%$search_query%' OR photos.description LIKE '%$search_query%') AND albums.access_level = 'public'";
+              WHERE (photos.title LIKE '%$search_query%' OR photos.description LIKE '%$search_query%') AND (photos.access_level = 'public' OR photos.user_id = $user_id)";
 } else {
     $query = "SELECT photos.*, users.name AS user_name FROM photos
               LEFT JOIN users ON photos.user_id = users.user_id
-              LEFT JOIN albums ON photos.album_id = albums.album_id
-              WHERE albums.access_level = 'public'";
+              WHERE photos.access_level = 'public' OR photos.user_id = $user_id";
 }
 
 $limit = 8;
@@ -39,6 +37,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     $photos[] = $row;
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
