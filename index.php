@@ -84,7 +84,7 @@ $total_pages = ceil($count_data['total'] / $limit);
     <div class="navbar bg-gray-800 text-white p-4 flex justify-between">
         <h2 class="text-lg font-bold">Selamat Datang</h2>
         <div class="flex space-x-4">
-            <a href="login.php" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Login</a>
+            <a href="login.php" class=" text-white-300 hover:bg-gray-200 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium ">Login</a>
         </div>
     </div>
 
